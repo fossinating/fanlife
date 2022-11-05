@@ -1,0 +1,10 @@
+initial features
+[ ] main screen
+	[ ] age + (continue, next) with randomized event
+	[ ] top bar with profile
+	[ ] log
+	[ ] stats bar with hidden layers (user defined)
+[ ] activites screen (?)
+	[ ] choose from category
+	[ ] maybe subcategories
+	[ ] event from that
