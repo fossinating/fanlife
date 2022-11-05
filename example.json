@@ -1,15 +1,17 @@
 {
   "name" : "Star Wars",
-  "attrs": {
+  "attr": {
     "health": {
       "min": 0,
       "max": 100,
-      "val": 100
+      "val": 100,
+	"visible": true
     },
     "skill": {
       "min": 0,
       "max": 100,
-      "val": 50
+      "val": 50,
+	"visible": true
     }
   },
   "starting_event": "randomizer",
@@ -138,52 +140,56 @@
         ]
       },
       {
-        "weight": 0,
-        "message": "You feel compelled by the light and become a padawan",
-        "next_event": "jedi_padawan"
+        "weight": 5,
+        "message": "You feel compelled by the light and become a padawan"
       }
     ],
     "sith_apprentice_jedi_encounter": [
       {
-        "message": "You and your master defeat the jedi with ease",
-        "dynamic_weights": [
+        "event_type": "dynamic_event_picker",
+        "dynamic_options": [
           {
-            "determinant": {"type": "attr_diff", "first_attr": "skill", "second_attr": "enemy_skill"},
-            "min_value": 5,
-            "additive":0,
-            "multiplier": 1 
-          }
-        ],
-        "next_event": "sith_apprentice"
-      },
-      {
-        "message": "You and your master defeat the jedi, but you get hurt in the process",
-        "weight": 5,
-        "effects": [
-          {"attr": "health", "mod": -20}
-        ],
-        "next_event": "sith_apprentice"
-      },
-      {
-        "message": "You defeat the jedi, but your master dies in the process and you advance to master status",
-        "dynamic_weights": [
+            "message": "You and your master defeat the jedi with ease",
+            "dynamic_weights": [
+              {
+                "determinant": {"type": "attr_diff", "first_attr": "skill", "second_attr": "enemy_skill"},
+                "min_value": 5,
+                "additive":0,
+                "multiplier": 1 
+              }
+            ],
+            "next_event": "sith_apprentice"
+          },
           {
-            "determinant": {"type": "attr", "attr": "skill"},
-            "min_value": 80,
-            "additive": 15,
-            "multiplier": 1
-          }
-        ],
-        "next_event": "sith_master"
-      },
-      {
-        "message": "You and your master fight valiantly, but are defeated.",
-        "dynamic_weights": [
+            "message": "You and your master defeat the jedi, but you get hurt in the process",
+            "weight": 5,
+            "effects": [
+              {"attr": "health", "mod": -20}
+            ],
+            "next_event": "sith_apprentice"
+          },
           {
-            "determinant": {"type": "attr_diff", "first_attr": "skill", "second_attr": "enemy_skill"},
-            "max_value": -5,
-            "additive":0,
-            "multiplier": -1 
+            "message": "You defeat the jedi, but your master dies in the process and you advance to master status",
+            "dynamic_weights": [
+              {
+                "determinant": {"type": "attr", "attr": "skill"},
+                "min_value": 80,
+                "additive": 15,
+                "multiplier": 1
+              }
+            ],
+            "next_event": "sith_master"
+          },
+          {
+            "message": "You and your master fight valiantly, but are defeated.",
+            "dynamic_weights": [
+              {
+                "determinant": {"type": "attr_diff", "first_attr": "skill", "second_attr": "enemy_skill"},
+                "max_value": -5,
+                "additive":0,
+                "multiplier": -1 
+              }
+            ]
           }
         ]
       }

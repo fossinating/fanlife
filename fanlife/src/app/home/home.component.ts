@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GameLogsService } from './gamelog/glogs.service';
+import { GamemanagerService } from '../gamemanager.service';
 
 @Component({
   selector: 'app-home',
@@ -8,13 +8,13 @@ import { GameLogsService } from './gamelog/glogs.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private glogService: GameLogsService) { }
+  constructor(private gameMgr: GamemanagerService) { }
 
   ngOnInit(): void {
   }
 
   nextBtn(): void {
-    
+    this.gameMgr.nextEvent();
   }
 
 }

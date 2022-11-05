@@ -16,10 +16,10 @@ export class GamestatsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.gstatService.addStat(0, 100, 69, "nice", true);
+    /*this.gstatService.addStat(0, 100, 69, "nice", true);
     this.gstatService.addStat(0, 100, 44, "forty four", true);
     this.gstatService.addStat(0, 100, 2, "NOT VISIBLE", false);
-    this.gstatService.addStat(0, 100, 11, "visible", true);
+    this.gstatService.addStat(0, 100, 11, "visible", true);*/
   }
 
 }
