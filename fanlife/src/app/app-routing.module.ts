@@ -4,7 +4,7 @@ import { ActivitiesComponent } from './activities/activities.component';
 import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
-  { path: 'activites', component: ActivitiesComponent },
+  { path: 'activities', component: ActivitiesComponent },
   { path: '', component: HomeComponent },
   { path: '**', redirectTo: '/' }
 ];

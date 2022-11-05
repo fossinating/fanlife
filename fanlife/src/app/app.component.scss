@@ -1,7 +1,7 @@
 .sidenav-container {
     height: 100%;
     position: fixed;
-    top: 60px;
+    top: 100px;
     bottom: 0;
     right: 0;
     left: 0;
@@ -11,4 +11,11 @@
     top: 0;
     left: 0;
     right: 0;
+}
+.sub-toolbar {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    height: 40px;
 }
