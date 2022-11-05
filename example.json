@@ -5,15 +5,13 @@
       "min": 0,
       "max": 100,
       "val": 100,
-	"visible": true
-      "visble": true
+	    "visible": true
     },
     "skill": {
       "min": 0,
       "max": 100,
       "val": 50,
-	"visible": true
-      "visble": true
+	    "visible": true
     }
   },
   "starting_event": "randomizer",
