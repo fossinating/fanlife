@@ -6,15 +6,34 @@
       "max": 100,
       "val": 100,
 	"visible": true
+      "visble": true
     },
     "skill": {
       "min": 0,
       "max": 100,
       "val": 50,
 	"visible": true
+      "visble": true
     }
   },
   "starting_event": "randomizer",
+  "activities": [
+    { 
+      "name": "Leave Jedi Order",
+      "requirements": [
+        {
+          "type": "game_data",
+          "attr": "affiliation",
+          "value": "jedi_order"
+        }
+      ],
+      "effects": [
+        {
+          ""
+        }
+      ]
+    }
+  ],
   "event_groups": {
     "randomizer": [
       {
@@ -33,6 +52,38 @@
         "weight": 5,
         "message": "You go for a training session with your master",
         "next_event": "train"
+      },
+      {
+        "weight": 15,
+        "event_type": "dynamic_event",
+        "message": "You and your master come across %enemy_name% in your travels",
+        "next_event": "jedi_padawan_encounter",
+        "dynamic_options": [
+          {
+            "enemy_name": "Darth Maul",
+            "enemy_skill": 80
+          },
+          {
+            "enemy_name": "Count Dooku",
+            "enemy_skill": 80
+          },
+          {
+            "enemy_name": "General Grievous",
+            "enemy_skill": 60
+          },
+          {
+            "enemy_name": "Darth Sidious",
+            "enemy_skill": 100
+          },
+          {
+            "enemy_name": "Jango Fett",
+            "enemy_skill": 40
+          },
+          {
+            "enemy_name": "Zam Wesell",
+            "enemy_skill": 20
+          }
+        ]
       }
     ],
     "train": [
@@ -190,6 +241,51 @@
                 "multiplier": -1 
               }
             ]
+          }
+        ]
+      }
+    ],
+    "jedi_padawan_encounter": [
+      {
+        "message": "You and your master defeat %enemy_name% with ease",
+        "dynamic_weights": [
+          {
+            "determinant": {"type": "attr_diff", "first_attr": "skill", "second_attr": "enemy_skill"},
+            "min_value": 5,
+            "additive":0,
+            "multiplier": 1 
+          }
+        ],
+        "next_event": "sith_apprentice"
+      },
+      {
+        "message": "You and your master defeat %enemy_name%, but you get hurt in the process",
+        "weight": 5,
+        "effects": [
+          {"attr": "health", "mod": -20}
+        ],
+        "next_event": "sith_apprentice"
+      },
+      {
+        "message": "You defeat %enemy_name%, but your master dies in the process and you advance to knight status",
+        "dynamic_weights": [
+          {
+            "determinant": {"type": "attr", "attr": "skill"},
+            "min_value": 80,
+            "additive": 15,
+            "multiplier": 1
+          }
+        ],
+        "next_event": "jedi_knight"
+      },
+      {
+        "message": "You and your master fight valiantly, but are defeated.",
+        "dynamic_weights": [
+          {
+            "determinant": {"type": "attr_diff", "first_attr": "skill", "second_attr": "enemy_skill"},
+            "max_value": -5,
+            "additive":0,
+            "multiplier": -1 
           }
         ]
       }
