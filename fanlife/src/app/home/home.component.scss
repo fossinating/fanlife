@@ -5,7 +5,7 @@
     z-index: -1;
 }
 .game-stats {
-    max-height: 20vh;
+    max-height: 15vh;
     position: fixed;
     overflow: hidden;
     bottom: 60px;
@@ -21,4 +21,7 @@
     right: 0;
     left: 0;
     margin-bottom: 0;
+}
+.spacer {
+    width: 8px;
 }

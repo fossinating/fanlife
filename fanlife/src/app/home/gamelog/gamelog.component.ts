@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Glog } from './glog';
+import { GameLogsService } from './glogs.service';
 
 @Component({
   selector: 'app-gamelog',
@@ -31,11 +32,16 @@ export class GamelogComponent implements OnInit {
     new Glog("filler data", false),
     new Glog("filler data", false),
     new Glog("filler data", false),
-  ]
+  ];
 
-  constructor() { }
+  constructor(private glogService: GameLogsService) { }
 
   ngOnInit(): void {
+    this.gameLogs = this.glogService.getGlogs();
+  }
+
+  addEvent() {
+    this.glogService.addGlog("RANDOM NEW EVENT", false);
   }
 
 }
