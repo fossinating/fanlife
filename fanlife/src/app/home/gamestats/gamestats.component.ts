@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Gstat } from './gstat';
+import { GameStatsService } from './gstats.service';
 
 @Component({
   selector: 'app-gamestats',
@@ -8,16 +9,17 @@ import { Gstat } from './gstat';
 })
 export class GamestatsComponent implements OnInit {
 
-  gameStats: Gstat[] = [
-    new Gstat(0, 100, 69, "nice"),
-    new Gstat(0, 100, 44, "forty four"),
-    new Gstat(0, 100, 3, "three"),
-    new Gstat(0, 100, 96, "ninety six"),
-  ]
+  gameStats: Gstat[];
 
-  constructor() { }
+  constructor(private gstatService: GameStatsService) {
+    this.gameStats = gstatService.getGameStats();
+  }
 
   ngOnInit(): void {
+    this.gstatService.addStat(0, 100, 69, "nice", true);
+    this.gstatService.addStat(0, 100, 44, "forty four", true);
+    this.gstatService.addStat(0, 100, 2, "NOT VISIBLE", false);
+    this.gstatService.addStat(0, 100, 11, "visible", true);
   }
 
 }
