@@ -1,10 +1,10 @@
 .DS_STORE
 
-/dist/
-/bazel-out
-/integration/bazel/bazel-*
+fanlife/dist/
+fanlife/bazel-out
+fanlife/integration/bazel/bazel-*
 *.log
-node_modules
+fanlife/node_modules
 
 # CircleCI temporary file for cache key computation.
 # See `save_month_to_file` in `.circleci/config.yml`.
@@ -18,14 +18,14 @@ pubspec.lock
 !.devcontainer/README.md
 !.devcontainer/recommended-devcontainer.json
 !.devcontainer/recommended-Dockerfile
-.settings/
-.vscode/launch.json
-.vscode/settings.json
-.vscode/tasks.json
+fanlife/.settings/
+fanlife/.vscode/launch.json
+fanlife/.vscode/settings.json
+fanlife/.vscode/tasks.json
 *.swo
 *.swp
-modules/.settings
-modules/.vscode
+fanlife/modules/.settings
+fanlife/modules/.vscode
 .vimrc
 .nvimrc
 
