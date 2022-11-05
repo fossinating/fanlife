@@ -1,27 +1,9 @@
-.game-log {
-    max-height: 60vh;
-    overflow-y: scroll;
-    display: flex;
-    z-index: -1;
+.universe-item {
+    list-style: none;
 }
-.game-stats {
-    max-height: 15vh;
-    position: fixed;
-    overflow: hidden;
-    bottom: 60px;
-    right: 0;
-    left: 0;
-}
-.game-stats-comp {
+.universe-link {
     width: 100%;
 }
-.action-bar {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    margin-bottom: 0;
-}
-.spacer {
-    width: 8px;
+.welcome-text {
+    text-align: center;
 }

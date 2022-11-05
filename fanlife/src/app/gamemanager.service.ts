@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { GameActivitiesService } from './activities/gacts.service';
 import { GameLogsService } from './home/gamelog/glogs.service';
 import { GameStatsService } from './home/gamestats/gstats.service';
@@ -18,7 +18,7 @@ export class GamemanagerService {
   constructor(private activityService: GameActivitiesService,
               private logService: GameLogsService,
               private statService: GameStatsService,
-              private http: HttpClient)
+              private http: HttpClient,)
   {
     // initialize variables
     this.universe_data = {
@@ -233,6 +233,6 @@ export class GamemanagerService {
   }
   
   nextEvent() {
-    
+    console.log("next event running. it is " + this.next_event);
   }
 }

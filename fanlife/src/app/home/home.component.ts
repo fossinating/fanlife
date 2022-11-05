@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GamemanagerService } from '../gamemanager.service';
+import { Universe } from './universe';
 
 @Component({
   selector: 'app-home',
@@ -8,13 +8,35 @@ import { GamemanagerService } from '../gamemanager.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private gameMgr: GamemanagerService) { }
+  universeList: Universe[];
 
-  ngOnInit(): void {
+  constructor() {
+    this.universeList = [
+      new Universe("Star Wars", "beef"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+      new Universe("Placeholder", "yeet"),
+    ]
   }
 
-  nextBtn(): void {
-    this.gameMgr.nextEvent();
+  ngOnInit(): void {
   }
 
 }
