@@ -1,0 +1,36 @@
+<div *ngIf="!isActivitiesOpen">
+    <span class="game-log">
+        <app-gamelog></app-gamelog>
+    </span>
+    <span class="game-stats">
+        <app-gamestats class="game-stats-comp"></app-gamestats>
+    </span>
+    <p class="action-bar">
+        <mat-toolbar color="primary" class="top-toolbar">
+            <button mat-raised-button class="example-icon" aria-label="Progress button" color="secondary" (click)="nextBtn()">
+                <mat-icon>fast_forward</mat-icon>
+                <span>Next</span>
+            </button>
+            <span class="spacer"></span>
+            <button mat-raised-button (click)="openActivities()" class="example-icon" aria-label="Activities button" color="secondary">
+                <mat-icon>directions_run</mat-icon>
+                <span>Activities</span>
+            </button>
+        </mat-toolbar>
+    </p>
+</div>
+<div *ngIf="isActivitiesOpen">
+    <p class="top-bar">
+        <mat-toolbar color="primary" class="top-toolbar">
+            <button mat-icon-button (click)="closeActivities()" class="close-button" aria-label="Close button">
+                <mat-icon>close</mat-icon>
+            </button>
+            <span>Activities</span>
+        </mat-toolbar>
+    </p>
+    <div>
+        <li *ngFor="let act of activityList" class="activity-item">
+            <button mat-button class="activity-button">{{act.label}}</button>
+        </li>
+    </div>
+</div>

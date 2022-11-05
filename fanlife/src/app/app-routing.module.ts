@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ActivitiesComponent } from './activities/activities.component';
 import { HomeComponent } from './home/home.component';
+import { UniverseComponent } from './universe/universe.component';
 
 const routes: Routes = [
-  { path: 'activities', component: ActivitiesComponent },
-  { path: '', component: HomeComponent },
+  { path: 'universe/:id', component: UniverseComponent },
+  { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: '**', redirectTo: '/' }
 ];
 

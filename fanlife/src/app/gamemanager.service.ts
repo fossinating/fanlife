@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { GameActivitiesService } from './activities/gacts.service';
 import { Glog } from './home/gamelog/glog';
 import { GameLogsService } from './home/gamelog/glogs.service';
@@ -20,7 +20,7 @@ export class GamemanagerService {
   constructor(private activityService: GameActivitiesService,
               private logService: GameLogsService,
               private statService: GameStatsService,
-              private http: HttpClient)
+              private http: HttpClient,)
   {
     // initialize variables
     this.universe_data = {
