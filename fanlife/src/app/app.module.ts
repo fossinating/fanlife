@@ -11,12 +11,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { GamelogComponent } from './home/gamelog/gamelog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ActivitiesComponent,
-    HomeComponent
+    HomeComponent,
+    GamelogComponent
   ],
   imports: [
     BrowserModule,

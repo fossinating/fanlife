@@ -1,0 +1,6 @@
+<div>
+    <li *ngFor="let glog of gameLogs" class="log-item">
+        <p *ngIf="!glog.isMajor">{{glog.logText}}</p>
+        <h2 *ngIf="glog.isMajor">{{glog.logText}}</h2>
+    </li>
+</div>
