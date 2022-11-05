@@ -6,7 +6,7 @@ fanlife/integration/bazel/bazel-*
 *.log
 fanlife/node_modules
 
-firebase-config.js
+fanlife/src/assets/firebase-config.js
 
 # CircleCI temporary file for cache key computation.
 # See `save_month_to_file` in `.circleci/config.yml`.
