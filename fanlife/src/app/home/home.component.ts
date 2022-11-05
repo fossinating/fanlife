@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GameLogsService } from './gamelog/glogs.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private glogService: GameLogsService) { }
 
   ngOnInit(): void {
+  }
+
+  nextBtn(): void {
+    
   }
 
 }
