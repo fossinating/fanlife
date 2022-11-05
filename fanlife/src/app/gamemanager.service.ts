@@ -11,6 +11,9 @@ import { GameStatsService } from './home/gamestats/gstats.service';
 export class GamemanagerService {
 
   private universe_data;
+  private next_event: string;
+  private current_event: string;
+  private previous_event: string;
 
   constructor(private activityService: GameActivitiesService,
               private logService: GameLogsService,
@@ -221,6 +224,12 @@ export class GamemanagerService {
       const stat = attrs[k];
       statService.addStat(stat.min, stat.max, stat.val, k, stat.visible);
     }
+
+    this.next_event = this.universe_data["starting_event"];
+    this.current_event = "";
+    this.previous_event = "";
+
+    this.nextEvent();
   }
   
   nextEvent() {
