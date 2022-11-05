@@ -1,1 +1,40 @@
-<router-outlet></router-outlet>
+<p>
+    <mat-toolbar color="primary" class="top-toolbar">
+        <button mat-icon-button class="example-icon" aria-label="Menu button" (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span>fanlife</span>
+        <!--<button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+            <mat-icon>favorite</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+            <mat-icon>share</mat-icon>
+        </button>-->
+    </mat-toolbar>
+</p>
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav mode="over" #sidenav class="sidenav">
+        SIDENAV SIDENAV SIDENAV
+        SIDENAV SIDENAV SIDENAV
+        SIDENAV SIDENAV SIDENAV
+        SIDENAV SIDENAV SIDENAV
+        SIDENAV SIDENAV SIDENAV
+        SIDENAV SIDENAV SIDENAV
+
+        SIDENAV SIDENAV SIDENAV
+        SIDENAV SIDENAV SIDENAV
+
+        vSIDENAV SIDENAV SIDENAV
+
+        SIDENAV SIDENAV SIDENAV
+        SIDENAV SIDENAV SIDENAV
+
+        SIDENAV SIDENAV SIDENAV
+        SIDENAV SIDENAV SIDENAV
+
+        SIDENAV SIDENAV SIDENAV
+    </mat-sidenav>
+    <mat-sidenav-content class="content">
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
