@@ -1,4 +1,16 @@
 <span class="game-log">
     <app-gamelog></app-gamelog>
 </span>
-<a [routerLink]="'/activities'">Activities</a>
+<span class="game-stats">
+    <app-gamestats class="game-stats-comp"></app-gamestats>
+</span>
+<p class="action-bar">
+    <mat-toolbar color="primary" class="top-toolbar">
+        <button mat-icon-button class="example-icon" aria-label="Progress button">
+            <mat-icon>fast_forward</mat-icon>
+        </button>
+        <a mat-icon-button  [routerLink]="'/activities'"class="example-icon" aria-label="Activities button">
+            <mat-icon>directions_run</mat-icon>
+        </a>
+    </mat-toolbar>
+</p>
