@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GameActivitiesService } from './activities/gacts.service';
+import { Glog } from './home/gamelog/glog';
 import { GameLogsService } from './home/gamelog/glogs.service';
 import { GameStatsService } from './home/gamestats/gstats.service';
 
@@ -14,6 +15,7 @@ export class GamemanagerService {
   private next_event: string;
   private current_event: string;
   private previous_event: string;
+  private game_data: {[name: string]: any};
 
   constructor(private activityService: GameActivitiesService,
               private logService: GameLogsService,
@@ -228,11 +230,95 @@ export class GamemanagerService {
     this.next_event = this.universe_data["starting_event"];
     this.current_event = "";
     this.previous_event = "";
+    this.game_data = {}
 
     this.nextEvent();
   }
   
+  get_event_weight(event: any) {
+    var weight = 0
+    if (event.hasOwnProperty("weight")){
+        weight += event.weight;
+    }
+    if (event.hasOwnProperty("dynamic_weights")) {
+        event.dynamic_weights.forEach((dynamic_weight: {determinant: {type: string, attr?: string, first_attr?: string, second_attr?: string}, max_value?: number, min_value?: number, additive: number, multiplier: number}) => {
+            var determinant = null;
+            if (dynamic_weight.determinant.type == "attr") {
+                var value = this.statService.getStat(dynamic_weight.determinant.attr as string).value
+                if ((!dynamic_weight.hasOwnProperty("max_value") || value <= (dynamic_weight.max_value as number)) && (!dynamic_weight.hasOwnProperty("min_value") || value >= (dynamic_weight.min_value as number))){
+                    determinant = value*dynamic_weight.multiplier + dynamic_weight.additive
+                }
+            }
+            else if (dynamic_weight.determinant.type == "attr_diff") {
+                var value = this.statService.getStat(dynamic_weight.determinant.first_attr as string).value - this.statService.getStat(dynamic_weight.determinant.second_attr as string).value
+                if ((!dynamic_weight.hasOwnProperty("max_value") || value <= (dynamic_weight.max_value as number)) && (!dynamic_weight.hasOwnProperty("min_value") || value >= (dynamic_weight.min_value as number))){
+                    determinant = value*dynamic_weight.multiplier + dynamic_weight.additive
+                }
+            }
+            if (determinant != null){
+                weight += determinant
+            }
+        })
+    }
+    return weight;
+}
+
   nextEvent() {
-    
+    this.previous_event = this.current_event
+    this.current_event = this.next_event
+    if (this.universe_data.event_groups.hasOwnProperty(this.current_event)) {
+        var event_group: any[] = this.universe_data.event_groups[this.current_event as keyof typeof this.universe_data.event_groups];
+        var valid_events: any[] = []
+        var total_weight = 0
+        event_group.forEach(event => {
+            var weight = this.get_event_weight(event)
+            if (weight > 0) {
+                valid_events.push(event);
+                total_weight += weight;
+            }
+        })
+
+        var random_weight = Math.random()*total_weight;
+        var event;
+        while (random_weight > 0) {
+            event = valid_events.pop();
+            random_weight -= this.get_event_weight(event);
+        }
+
+        if (event.hasOwnProperty("event_type") && event.event_type == "dynamic_event"){
+            var option = event.dynamic_options[Math.floor(Math.random() * event.dynamic_options.length)]
+            Object.keys(option).forEach(key => {
+                this.game_data[key] = option[key];
+            })
+        }
+
+        var replacements: {[name: string]: string} = {}
+
+        Object.keys(this.game_data).forEach(key => {
+            replacements["%" + key + "%"] = String(this.game_data[key])
+        })
+
+        var message = event.message.replace(/%\w+%/g, function(all: any) {
+            return replacements[all] || all;
+          });
+        this.logService.addGlog(message, false)
+        if (event.hasOwnProperty("effects")) {
+            event.effects.forEach((effect: {attr: string, mod?: number, set?: number}) => {
+                if (effect.hasOwnProperty("mod")){
+                    this.statService.modStat(effect.attr, effect.mod as number)
+                } else if (effect.hasOwnProperty("set")) {
+                    this.statService.setStat(effect.attr, effect.set as number)
+                }
+            })
+        }
+        if (event.hasOwnProperty("next_event")) {
+            this.next_event = event.next_event
+            if (this.next_event === "$back") {
+                this.next_event = this.previous_event;
+            }
+        }
+    } else {
+        console.error("Invalid event type " + this.current_event)
+    }
   }
 }

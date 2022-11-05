@@ -1,8 +1,8 @@
 <div>
-    <li *ngFor="let stat of gameStats" class="stat-item">
-        <div *ngIf="stat.isVisible">
-            <span>{{stat.label}}</span>
-            <mat-progress-bar mode="determinate" [value]="(stat.value / (stat.max - stat.min)) * 100"></mat-progress-bar>
+    <li *ngFor="let item of gameStats | keyvalue" class="stat-item">
+        <div *ngIf="item.value.isVisible">
+            <span>{{item.value.label}}</span>
+            <mat-progress-bar mode="determinate" [value]="(item.value.value / (item.value.max - item.value.min)) * 100"></mat-progress-bar>
         </div>
     </li>
 </div>

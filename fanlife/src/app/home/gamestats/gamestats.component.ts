@@ -9,7 +9,7 @@ import { GameStatsService } from './gstats.service';
 })
 export class GamestatsComponent implements OnInit {
 
-  gameStats: Gstat[];
+  gameStats: {[name: string]: Gstat};
 
   constructor(private gstatService: GameStatsService) {
     this.gameStats = gstatService.getGameStats();
