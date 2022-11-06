@@ -163,7 +163,7 @@ export class GamemanagerService {
         ],
         "jedi_padawan": [
           {
-            "weight": 5,
+            "weight": 15,
             "message": "You go for a training session with your master",
             "next_event": "train"
           },
@@ -307,51 +307,50 @@ export class GamemanagerService {
         ],
         "sith_apprentice_jedi_encounter": [
           {
-            "event_type": "dynamic_event_picker",
-            "dynamic_options": [
+            "message": "You and your master defeat the jedi with ease",
+            "dynamic_weights": [
               {
-                "message": "You and your master defeat the Jedi with ease",
-                "dynamic_weights": [
-                  {
-                    "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
-                    "min_value": 5,
-                    "additive":0,
-                    "multiplier": 1 
-                  }
-                ],
-                "next_event": "sith_apprentice"
-              },
-              {
-                "message": "You and your master defeat the Jedi, but you get hurt in the process",
-                "weight": 5,
-                "effects": [
-                  {"attr": "player.health", "mod": -20}
-                ],
-                "next_event": "sith_apprentice"
-              },
-              {
-                "message": "You defeat the Jedi, but your master dies in the process and you advance to master status",
-                "dynamic_weights": [
-                  {
-                    "determinant": {"type": "attr", "attr": "player.skill"},
-                    "min_value": 80,
-                    "additive": 15,
-                    "multiplier": 1
-                  }
-                ],
-                "next_event": "sith_master"
-              },
-              {
-                "message": "You and your master fight valiantly, but are defeated.",
-                "dynamic_weights": [
-                  {
-                    "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
-                    "max_value": -5,
-                    "additive":0,
-                    "multiplier": -1 
-                  }
-                ]
+                "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
+                "min_value": 5,
+                "additive":0,
+                "multiplier": 1
               }
+            ],
+            "next_event": "sith_apprentice"
+          },
+          {
+            "message": "You and your master defeat the jedi, but you get hurt in the process",
+            "weight": 5,
+            "effects": [
+              {"attr": "player.health", "mod": -20}
+            ],
+            "next_event": "sith_apprentice"
+          },
+          {
+            "message": "You defeat the jedi, but your master dies in the process and you advance to master status",
+            "dynamic_weights": [
+              {
+                "determinant": {"type": "attr", "attr": "player.skill"},
+                "min_value": 80,
+                "additive": 15,
+                "multiplier": 1
+              }
+            ],
+            "next_event": "sith_master"
+          },
+          {
+            "message": "You and your master fight valiantly, but are defeated.",
+            "dynamic_weights": [
+              {
+                "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
+                "max_value": -5,
+                "additive":0,
+                "multiplier": -1
+              }
+            ],
+            "effects":
+            [
+              {"attr": "player.health", "set": 0}
             ]
           }
         ],
@@ -363,10 +362,10 @@ export class GamemanagerService {
                 "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
                 "min_value": 5,
                 "additive":0,
-                "multiplier": 1 
+                "multiplier": 1
               }
             ],
-            "next_event": "sith_apprentice"
+            "next_event": "jedi_padawan"
           },
           {
             "message": "You and your master defeat %game.enemy_name%, but you get hurt in the process",
@@ -374,7 +373,7 @@ export class GamemanagerService {
             "effects": [
               {"attr": "player.health", "mod": -20}
             ],
-            "next_event": "sith_apprentice"
+            "next_event": "jedi_padawan"
           },
           {
             "message": "You defeat %game.enemy_name%, but your master dies in the process and you advance to knight status",
@@ -395,8 +394,12 @@ export class GamemanagerService {
                 "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
                 "max_value": -5,
                 "additive":0,
-                "multiplier": -1 
+                "multiplier": -1
               }
+            ],
+            "effects":
+            [
+              {"attr": "player.health", "set": 0}
             ]
           }
         ],
@@ -543,24 +546,24 @@ export class GamemanagerService {
             "next_event": "train"
           },
           {
-            "weight": 5, 
+            "weight": 5,
             "message": "In your travels, you encounter %person_name% but decide to part peacefully",
             "event_type": "dynamic_event",
             "dynamic_options": [
               {
-                "encounter_name": "Jango Fett"
+                "game.encounter_name": "Jango Fett"
               },
               {
-                "encounter_name": "Zam Wesell"
+                "game.encounter_name": "Zam Wesell"
               },
               {
-                "encounter_name": "Anakin Skywalker"
+                "game.encounter_name": "Anakin Skywalker"
               },
               {
-                "encounter_name": "Obi-Wan Kenobi"
+                "game.encounter_name": "Obi-Wan Kenobi"
               },
               {
-                "encounter_name": "Jango Fett"
+                "game.encounter_name": "Jango Fett"
               }
             ],
             "next_event": "unaffiliated"
@@ -575,7 +578,10 @@ export class GamemanagerService {
         ]
       }
     }
-    
+
+
+
+
 
     // init attributes
     let attrs = this.universe_data["attrs"];
@@ -593,7 +599,7 @@ export class GamemanagerService {
 
     this.nextEvent();
   }
-  
+
   getUniverseData() {
     return this.universe_data;
   }
@@ -607,13 +613,13 @@ export class GamemanagerService {
         event.dynamic_weights.forEach((dynamic_weight: {determinant: {type: string, attr?: string, first_attr?: string, second_attr?: string}, max_value?: number, min_value?: number, additive: number, multiplier: number}) => {
             var determinant = null;
             if (dynamic_weight.determinant.type == "attr") {
-                var value: number = this.getAttr(dynamic_weight.determinant.attr as string).value
+                var value: number = this.getAttr(dynamic_weight.determinant.attr as string)
                 if ((!dynamic_weight.hasOwnProperty("max_value") || value <= (dynamic_weight.max_value as number)) && (!dynamic_weight.hasOwnProperty("min_value") || value >= (dynamic_weight.min_value as number))){
                     determinant = value*dynamic_weight.multiplier + dynamic_weight.additive
                 }
             }
             else if (dynamic_weight.determinant.type == "attr_diff") {
-                var value: number = this.getAttr(dynamic_weight.determinant.first_attr as string).value - this.getAttr(dynamic_weight.determinant.second_attr as string).value
+                var value: number = this.getAttr(dynamic_weight.determinant.first_attr as string) - this.getAttr(dynamic_weight.determinant.second_attr as string)
                 if ((!dynamic_weight.hasOwnProperty("max_value") || value <= (dynamic_weight.max_value as number)) && (!dynamic_weight.hasOwnProperty("min_value") || value >= (dynamic_weight.min_value as number))){
                     determinant = value*dynamic_weight.multiplier + dynamic_weight.additive
                 }
@@ -626,11 +632,11 @@ export class GamemanagerService {
     return weight;
 }
 
-  
+
   getAttr(attr: string){
-    console.log("getting attribute: " + attr);
+    //console.log("getting attribute: " + attr);
     if (attr.startsWith("player.")){
-      return this.statService.getStat(attr.substring(7));
+      return this.statService.getStat(attr.substring(7)).value;
     } else if (attr.startsWith("game.")){
       return this.game_data[attr.substring(5)];
     } else {
@@ -638,7 +644,7 @@ export class GamemanagerService {
     }
   }
 
-  
+
   modAttr(attr: string, modAmount: number){
     if (attr.startsWith("player.")){
       this.statService.modStat(attr.substring(7), modAmount);
@@ -653,8 +659,9 @@ export class GamemanagerService {
     }
   }
 
-  
+
   setAttr(attr: string, setValue: any){
+    console.log("setting attribute: " + attr + " to: " + setValue)
     if (attr.startsWith("player.")){
       this.statService.setStat(attr.substring(7), setValue);
     } else if (attr.startsWith("game.")){
@@ -664,7 +671,7 @@ export class GamemanagerService {
     }
   }
 
-  
+
   runEvent(event: string) {
     //let heldEvent = this.next_event;
     this.next_event = event;
@@ -694,6 +701,11 @@ export class GamemanagerService {
             random_weight -= this.get_event_weight(event);
         }
 
+        if (event == undefined){
+          console.log(event_group)
+          console.log(valid_events)
+        }
+
         if (event.hasOwnProperty("event_type") && event.event_type == "dynamic_event"){
             var option = event.dynamic_options[Math.floor(Math.random() * event.dynamic_options.length)]
             Object.keys(option).forEach(key => {
@@ -712,7 +724,7 @@ export class GamemanagerService {
             replacements["%player." + key + "%"] = String(this.statService.getStat(key))
         })
 
-        var message = event.message.replace(/%(\w|.)+%/g, function(all: any) {
+        var message = event.message.replace(/%(\w|.)+%/, function(all: any) {
             return replacements[all] || all;
           });
         this.logService.addGlog(message, false)
@@ -730,6 +742,15 @@ export class GamemanagerService {
             if (this.next_event === "$back") {
                 this.next_event = this.previous_event;
             }
+        }
+
+        if (this.getAttr("player.health") <= 0) {
+          this.next_event = "dead"
+          this.logService.addGlog("You have deceased", true)
+          const collection = document.getElementsByClassName("game-button");
+          for (let i = 0; i < collection.length; i++) {
+            (collection[i] as HTMLInputElement).disabled = true;
+          }
         }
     } else {
         console.error("Invalid event type " + this.current_event)
