@@ -25,6 +25,12 @@
           "value": "jedi_order"
         }
       ],
+      "disable_on": [
+        {
+          "type": "next_event_in",
+          "value": ["train", "jedi_padawan_encounter"]
+        }
+      ],
       "event": "leave_jedi"
     },
     {
@@ -34,6 +40,12 @@
           "type": "attr",
           "attr": "game.affiliation",
           "value": "jedi_order"
+        }
+      ],
+      "disable_on": [
+        {
+          "type": "next_event_in",
+          "value": ["train", "jedi_padawan_encounter"]
         }
       ],
       "event": "defect_to_sith"
@@ -47,6 +59,12 @@
           "value": "sith"
         }
       ],
+      "disable_on": [
+        {
+          "type": "next_event_in",
+          "value": ["train", "sith_apprentice_jedi_encounter"]
+        }
+      ],
       "event": "leave_sith"
     },
     {
@@ -56,6 +74,12 @@
           "type": "attr",
           "attr": "game.affiliation",
           "value": "sith"
+        }
+      ],
+      "disable_on": [
+        {
+          "type": "next_event_in",
+          "value": ["train", "sith_apprentice_jedi_encounter"]
         }
       ],
       "event": "defect_to_jedi"
@@ -69,10 +93,16 @@
           "value": "unaffiliated"
         }
       ],
+      "disable_on": [
+        {
+          "type": "next_event_in",
+          "value": ["train"]
+        }
+      ],
       "event": "join_sith"
     },
     {
-      "name": "Defect to Jedi Order",
+      "name": "Join Jedi Order",
       "requirements": [
         {
           "type": "attr",
@@ -80,11 +110,23 @@
           "value": "unaffiliated"
         }
       ],
+      "disable_on": [
+        {
+          "type": "next_event_in",
+          "value": ["train"]
+        }
+      ],
       "event": "join_jedi"
     },
     {
       "name": "Train",
-      "event": "train_activity"
+      "event": "train_activity",
+      "disable_on": [
+        {
+          "type": "next_event_in",
+          "value": ["train", "jedi_padawan_encounter", "sith_apprentice_jedi_encounter"]
+        }
+      ]
     },
     {
       "name": "Kill your master",
@@ -100,6 +142,12 @@
           "value": "apprentice"
         }
       ],
+      "disable_on": [
+        {
+          "type": "next_event_in",
+          "value": ["train", "sith_apprentice_jedi_encounter"]
+        }
+      ],
       "event": "kill_master"
     }
   ],
@@ -108,30 +156,32 @@
       {
         "weight": 20,
         "message": "You are a sith apprentice",
+        "bold": true,
         "next_event": "sith_apprentice",
         "effects": [
           {
             "attr": "game.affiliation",
-            "val": "sith"
+            "set": "sith"
           },
           {
-            "attr": "game.role",
-            "val": "apprentice"
+            "attr": "game.rank",
+            "set": "apprentice"
           }
         ]
       },
       {
         "weight": 20,
         "message": "You are a jedi padawan",
+        "bold": true,
         "next_event": "jedi_padawan",
         "effects": [
           {
             "attr": "game.affiliation",
-            "val": "jedi"
+            "set": "jedi_order"
           },
           {
-            "attr": "game.role",
-            "val": "padawan"
+            "attr": "game.rank",
+            "set": "padawan"
           }
         ]
       }
@@ -178,6 +228,7 @@
     "train": [
       {
         "weight": 15,
+        "valid_previous": false,
         "message": "You get slightly stronger",
         "effects": [
           {
@@ -283,6 +334,7 @@
     "sith_apprentice_jedi_encounter": [
       {
         "message": "You and your master defeat the jedi with ease",
+        "valid_previous": false,
         "dynamic_weights": [
           {
             "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
@@ -302,7 +354,7 @@
         "next_event": "sith_apprentice"
       },
       {
-        "message": "You defeat the jedi, but your master dies in the process and you advance to master status",
+        "message": "You defeat the jedi, but your master dies in the process and you rise as the new sith lord",
         "dynamic_weights": [
           {
             "determinant": {"type": "attr", "attr": "player.skill"},
@@ -311,7 +363,7 @@
             "multiplier": 1
           }
         ],
-        "next_event": "sith_master"
+        "next_event": "sith_lord"
       },
       {
         "message": "You and your master fight valiantly, but are defeated.",
@@ -382,6 +434,7 @@
       {
         "weight": 1,
         "message": "You left the jedi order, dissapointing your master",
+        "valid_previous": false,
         "effects": [
           {
             "attr": "game.affiliation",
@@ -399,6 +452,7 @@
       {
         "weight": 1,
         "message": "You defected to the sith, dissapointing the whole jedi order",
+        "valid_previous": false,
         "effects": [
           {
             "attr": "game.affiliation",
@@ -416,6 +470,7 @@
       {
         "weight": 1,
         "message": "You left the sith order",
+        "valid_previous": false,
         "effects": [
           {
             "attr": "game.affiliation",
@@ -433,6 +488,7 @@
       {
         "weight": 1,
         "message": "You defected to the jedi order, although they are still slightly suspicious of you",
+        "valid_previous": false,
         "effects": [
           {
             "attr": "game.affiliation",
@@ -450,6 +506,7 @@
       {
         "weight": 1,
         "message": "You chose to join the jedi order, and they welcomed you with open arms",
+        "valid_previous": false,
         "effects": [
           {
             "attr": "game.affiliation",
@@ -467,6 +524,7 @@
       {
         "weight": 1,
         "message": "After many trials, you were taken in as a sith apprentice",
+        "valid_previous": false,
         "effects": [
           {
             "attr": "game.affiliation",
@@ -490,6 +548,7 @@
             "multiplier": 2
           }
         ],
+        "valid_previous": false,
         "message": "You snuck into your master's chambers at night and killed them, you are now the lord of the sith",
         "effects": [
           {
@@ -546,6 +605,7 @@
     ],
     "train_activity": [
       {
+        "valid_previous": false,
         "weight": 1,
         "message": "You decide to go train for a bit",
         "next_event": "train"
