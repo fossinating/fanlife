@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
     });
 
     this.universeList = [
-      new Universe("Loading universes...", "bonelesspizza"),
+      new Universe("Loading universes...", ''),
     ]
   }
 

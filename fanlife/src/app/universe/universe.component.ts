@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { assert } from '@firebase/util';
 import { Effect } from '../activities/effect';
@@ -29,7 +29,8 @@ export class UniverseComponent implements OnInit {
               private activityService: GameActivitiesService,
               private firestore: AngularFirestore,
               private dialog: MatDialog,
-              private nameService: PlayernameService)
+              private nameService: PlayernameService,
+              private html: ElementRef)
   {
     const id = this.route.snapshot.paramMap.get('id');
     this.universeId = id ? id : 'UNDEFINED';
@@ -64,6 +65,11 @@ export class UniverseComponent implements OnInit {
 
   nextBtn(): void {
     this.gameMgr.nextEvent();
+    setTimeout(() => {
+      const el = this.html.nativeElement.querySelector('app-gamelog').parentElement;
+      console.log(el);
+      el.scrollTop = el.scrollHeight;
+    }, 100)
   }
 
   openActivities(): void {
