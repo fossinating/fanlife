@@ -15,12 +15,12 @@ export class HomeComponent implements OnInit {
   private universeCollection: AngularFirestoreCollection<Item>;
   private index: Item;
   universeList: Universe[];
+  isLoading: boolean;
 
   constructor(private firestore: AngularFirestore) {
     this.universeList = [];
-
+    this.isLoading = true;
     this.universeCollection = firestore.collection<Item>('universes');
-
     this.index = {name: ""};
 
     this.universeCollection.doc('index').ref.get().then(got => {
@@ -34,11 +34,12 @@ export class HomeComponent implements OnInit {
         for (k in indexData) {
           this.universeList.push(new Universe(indexData[k], k));
         }
+        this.isLoading = false;
       }
     });
 
     this.universeList = [
-      new Universe("Loading universes...", "bonelesspizza"),
+      new Universe("Loading universes...", ''),
     ]
   }
 

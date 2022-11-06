@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { assert } from '@firebase/util';
 import { Effect } from '../activities/effect';
@@ -23,20 +23,23 @@ export class UniverseComponent implements OnInit {
   universeId: string;
   playerName: string;
   isDead: boolean;
+  isLoading: boolean;
 
   constructor(private gameMgr: GamemanagerService,
               private route: ActivatedRoute,
               private activityService: GameActivitiesService,
               private firestore: AngularFirestore,
               private dialog: MatDialog,
-              private nameService: PlayernameService)
+              private nameService: PlayernameService,
+              private html: ElementRef)
   {
     const id = this.route.snapshot.paramMap.get('id');
     this.universeId = id ? id : 'UNDEFINED';
     this.isActivitiesOpen = false;
     this.activityList = activityService.getActivities();
-    this.playerName = '';
+    this.playerName = ''
     this.isDead = false;
+    this.isLoading = true;
 
     // grab universe info from db
     let universeCollection = firestore.collection<Item>('universes');
@@ -44,6 +47,7 @@ export class UniverseComponent implements OnInit {
       const universeData = got.data();
       if (universeData) {
         console.log(universeData);
+        this.isLoading = false;
         /*this.index = universeData;
         console.log(this.index);
         // now update universe list
@@ -63,6 +67,11 @@ export class UniverseComponent implements OnInit {
 
   nextBtn(): void {
     this.gameMgr.nextEvent();
+    setTimeout(() => {
+      const el = this.html.nativeElement.querySelector('app-gamelog').parentElement;
+      console.log(el);
+      el.scrollTop = el.scrollHeight;
+    }, 100)
   }
 
   openActivities(): void {
@@ -131,8 +140,14 @@ export class UniverseComponent implements OnInit {
       data: {name: this.playerName}
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.playerName = result;
-      this.nameService.setName(this.playerName);
+      if (result) {
+        // non empty name, set it!
+        this.playerName = result;
+        this.nameService.setName(this.playerName);
+      } else {
+        this.playerName = 'Glup Schitto';
+        this.nameService.setName('Glup Schitto');
+      }
     });
   }
 
