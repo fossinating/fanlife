@@ -8,6 +8,9 @@ import { GamemanagerService } from '../gamemanager.service';
 import { AngularFirestore, AngularFirestoreCollection, DocumentSnapshot } from '@angular/fire/compat/firestore';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PlayernameService } from '../name/playername.service';
+import { initializeApp } from '@angular/fire/app';
+import { UniverseData } from '../datainterfaces/universe_data';
+import { Activity, ActivityDisableOn, ActivityRequirement } from '../datainterfaces/activity';
 
 export interface Item { name: string }
 export interface DialogData { playerName: string }
@@ -47,7 +50,9 @@ export class UniverseComponent implements OnInit {
       const universeData = got.data();
       if (universeData) {
         console.log(universeData);
+        this.gameMgr.init_universe((universeData as UniverseData));
         this.isLoading = false;
+        this.gameMgr.nextEvent();
         /*this.index = universeData;
         console.log(this.index);
         // now update universe list
@@ -61,6 +66,7 @@ export class UniverseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     // ask the user for their name
     this.openDialog();
   }
@@ -96,9 +102,9 @@ export class UniverseComponent implements OnInit {
         assert(activity.requirements != undefined, "AAAAAA");
         if (activity.requirements != undefined){
           for (r_k in activity.requirements) {
-            const requirement: {type: string, attr: string, value: any} = activity.requirements?.[r_k];
+            const requirement: ActivityRequirement = activity.requirements?.[r_k];
             if (requirement.type == "attr") {
-              if (this.gameMgr.getAttr(requirement.attr) != requirement.value) {
+              if (this.gameMgr.getAttr(requirement?.attr as string) != requirement.value) {
                 good = false;
                 break;
               }
@@ -110,17 +116,11 @@ export class UniverseComponent implements OnInit {
         }
       }
       if (activity.hasOwnProperty("disable_on")) {
-        let d_k: any
         if (activity["disable_on" as keyof typeof activity] != undefined){
-          console.log(activity["disable_on" as keyof typeof activity])
-          for (let disable_on of (activity["disable_on" as keyof typeof activity] as Array<{[key: string]: any, type: string}>)){
-            console.log(disable_on["value"])
+          for (let disable_on of (activity["disable_on" as keyof Activity] as Array<ActivityDisableOn>)){
             if (disable_on.type == "next_event_in") {
-              console.log(this.gameMgr.get_next_event())
-              console.log(disable_on["value"].includes(this.gameMgr.get_next_event()))
-              disabled = disable_on["value"].includes(this.gameMgr.get_next_event())
+              disabled = disable_on.value.includes(this.gameMgr.get_next_event())
               if (disabled){
-                console.log("disabling")
                 break;
               }
             }
@@ -138,6 +138,11 @@ export class UniverseComponent implements OnInit {
   clickActivity(event: string) {
     this.isActivitiesOpen = false;
     this.gameMgr.runEvent(event);
+
+    // check if died
+    if (this.gameMgr.isDead) {
+      this.isDead = true;
+    }
   }
 
   openDialog(): void {

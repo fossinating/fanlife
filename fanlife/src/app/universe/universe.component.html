@@ -7,22 +7,18 @@
     </span>
     <p class="action-bar">
         <mat-toolbar color="primary" class="top-toolbar">
-            <div *ngIf="!isDead">
-                <button mat-raised-button class="example-icon gameplay-button" aria-label="Progress button" color="secondary" (click)="nextBtn()">
-                    <mat-icon>fast_forward</mat-icon>
-                    <span>Next</span>
-                </button>
-            </div>
-            <div *ngIf="isDead">
-                <button mat-raised-button class="example-icon gameplay-button" color="secondary" (click)="reloadPage()">
-                    <mat-icon>refresh</mat-icon>
-                    <span>Restart</span>
-                </button>
-            </div>
-            <span class="spacer"></span>
-            <button mat-raised-button (click)="openActivities()" class="example-icon gameplay-button" aria-label="Activities button" color="secondary" >
+            <button *ngIf="!isDead" mat-raised-button class="example-icon gameplay-button" aria-label="Progress button" color="secondary" (click)="nextBtn()" [disabled]="isLoading">
+                <mat-icon>fast_forward</mat-icon>
+                <span>Next</span>
+            </button>
+            <span *ngIf="!isDead" class="spacer"></span>
+            <button *ngIf="!isDead" mat-raised-button (click)="openActivities()" class="example-icon gameplay-button" aria-label="Activities button" color="secondary" [disabled]="isLoading">
                 <mat-icon>directions_run</mat-icon>
                 <span>Activities</span>
+            </button>
+            <button *ngIf="isDead" mat-raised-button class="example-icon gameplay-button" color="secondary" (click)="reloadPage()">
+                <mat-icon>refresh</mat-icon>
+                <span>Restart</span>
             </button>
         </mat-toolbar>
     </p>
