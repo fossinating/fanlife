@@ -15,6 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDividerModule } from '@angular/material/divider';
 import { GamelogComponent } from './home/gamelog/gamelog.component';
 import { GamestatsComponent } from './home/gamestats/gamestats.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -22,6 +23,8 @@ import { NameDialog, UniverseComponent } from './universe/universe.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from 'src/environments/environment';
+import { DesignerComponent } from './designer/designer.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +34,8 @@ import { environment } from 'src/environments/environment';
     GamestatsComponent,
     UniverseComponent,
     NameDialog,
+    DesignerComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +55,7 @@ import { environment } from 'src/environments/environment';
     MatInputModule,
     FormsModule,
     MatProgressSpinnerModule,
+    MatDividerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

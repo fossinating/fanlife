@@ -24,25 +24,12 @@
 </p>
 <mat-sidenav-container class="sidenav-container">
     <mat-sidenav mode="over" #sidenav class="sidenav">
-        SIDENAV SIDENAV SIDENAV
-        SIDENAV SIDENAV SIDENAV
-        SIDENAV SIDENAV SIDENAV
-        SIDENAV SIDENAV SIDENAV
-        SIDENAV SIDENAV SIDENAV
-        SIDENAV SIDENAV SIDENAV
-
-        SIDENAV SIDENAV SIDENAV
-        SIDENAV SIDENAV SIDENAV
-
-        vSIDENAV SIDENAV SIDENAV
-
-        SIDENAV SIDENAV SIDENAV
-        SIDENAV SIDENAV SIDENAV
-
-        SIDENAV SIDENAV SIDENAV
-        SIDENAV SIDENAV SIDENAV
-
-        SIDENAV SIDENAV SIDENAV
+        <div class="sidenav-banner-span">
+            <img src="assets/banner-blue.png" class="sidenav-banner">
+        </div>
+        <a mat-button class="sidenav-button" [routerLink]="'designer'" (click)="sidenav.close()">Universe Designer</a>
+        <a mat-button class="sidenav-button" [routerLink]="''" (click)="sidenav.close()">Quit Universe</a>
+        <a mat-button class="sidenav-button" [routerLink]="'about'" (click)="sidenav.close()">About</a>
     </mat-sidenav>
     <mat-sidenav-content class="content">
         <router-outlet></router-outlet>
