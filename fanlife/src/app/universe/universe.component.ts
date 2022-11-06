@@ -22,6 +22,7 @@ export class UniverseComponent implements OnInit {
   activityList: Gact[];
   universeId: string;
   playerName: string;
+  isLoading: boolean;
 
   constructor(private gameMgr: GamemanagerService,
               private route: ActivatedRoute,
@@ -35,6 +36,7 @@ export class UniverseComponent implements OnInit {
     this.isActivitiesOpen = false;
     this.activityList = activityService.getActivities();
     this.playerName = '';
+    this.isLoading = true;
 
     // grab universe info from db
     let universeCollection = firestore.collection<Item>('universes');
@@ -42,6 +44,7 @@ export class UniverseComponent implements OnInit {
       const universeData = got.data();
       if (universeData) {
         console.log(universeData);
+        this.isLoading = false;
         /*this.index = universeData;
         console.log(this.index);
         // now update universe list

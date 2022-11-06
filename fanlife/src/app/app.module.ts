@@ -13,7 +13,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { FormsModule } from '@angular/forms'
+import { FormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { GamelogComponent } from './home/gamelog/gamelog.component';
 import { GamestatsComponent } from './home/gamestats/gamestats.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -48,6 +49,7 @@ import { environment } from 'src/environments/environment';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
