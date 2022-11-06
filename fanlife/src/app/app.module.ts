@@ -10,10 +10,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms'
 import { GamelogComponent } from './home/gamelog/gamelog.component';
 import { GamestatsComponent } from './home/gamestats/gamestats.component';
 import { HttpClientModule } from '@angular/common/http';
-import { UniverseComponent } from './universe/universe.component';
+import { NameDialog, UniverseComponent } from './universe/universe.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from 'src/environments/environment';
@@ -25,6 +29,7 @@ import { environment } from 'src/environments/environment';
     GamelogComponent,
     GamestatsComponent,
     UniverseComponent,
+    NameDialog,
   ],
   imports: [
     BrowserModule,
@@ -39,6 +44,10 @@ import { environment } from 'src/environments/environment';
     BrowserAnimationsModule,
     MatProgressBarModule,
     HttpClientModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

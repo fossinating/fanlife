@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { nameHolder, PlayernameService } from './name/playername.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'fanlife';
+  playerName: nameHolder;
+  constructor(private nameService: PlayernameService) {
+    this.playerName = nameService.getName();
+  }
 }
