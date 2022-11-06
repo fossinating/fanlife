@@ -16,7 +16,11 @@ export class GameActivitiesService {
         return this.activities;
     }
 
-    addActivity(label: string, effects: Effect[]) {
-        this.activities.push(new Gact(label, effects));
+    addActivity(label: string, event: string) {
+        this.activities.push(new Gact(label, event));
+    }
+
+    clearActivities() {
+        this.activities = [];
     }
 }

@@ -1,11 +1,10 @@
-import { Effect } from "./effect";
 
 export class Gact {
     public label: string;
-    public effects: Effect[];
+    public event: string;
 
-    constructor(label: string, effects: Effect[]) {
+    constructor(label: string, event: string) {
         this.label = label;
-        this.effects = effects;
+        this.event = event;
     }
 }

@@ -30,7 +30,7 @@
     </p>
     <div>
         <li *ngFor="let act of activityList" class="activity-item">
-            <button mat-button class="activity-button">{{act.label}}</button>
+            <button mat-button class="activity-button" (click)="clickActivity(act.event)">{{act.label}}</button>
         </li>
     </div>
 </div>
