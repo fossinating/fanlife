@@ -1,13 +1,13 @@
 {
   "name" : "Star Wars",
   "attrs": {
-    "player.health": {
+    "health": {
       "min": 0,
       "max": 100,
       "val": 100,
 	    "visible": true
     },
-    "player.skill": {
+    "skill": {
       "min": 0,
       "max": 100,
       "val": 50,
@@ -138,7 +138,7 @@
     ],
     "jedi_padawan": [
       {
-        "weight": 5,
+        "weight": 15,
         "message": "You go for a training session with your master",
         "next_event": "train"
       },
@@ -282,51 +282,50 @@
     ],
     "sith_apprentice_jedi_encounter": [
       {
-        "event_type": "dynamic_event_picker",
-        "dynamic_options": [
+        "message": "You and your master defeat the jedi with ease",
+        "dynamic_weights": [
           {
-            "message": "You and your master defeat the jedi with ease",
-            "dynamic_weights": [
-              {
-                "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
-                "min_value": 5,
-                "additive":0,
-                "multiplier": 1 
-              }
-            ],
-            "next_event": "sith_apprentice"
-          },
-          {
-            "message": "You and your master defeat the jedi, but you get hurt in the process",
-            "weight": 5,
-            "effects": [
-              {"attr": "player.health", "mod": -20}
-            ],
-            "next_event": "sith_apprentice"
-          },
-          {
-            "message": "You defeat the jedi, but your master dies in the process and you advance to master status",
-            "dynamic_weights": [
-              {
-                "determinant": {"type": "attr", "attr": "player.skill"},
-                "min_value": 80,
-                "additive": 15,
-                "multiplier": 1
-              }
-            ],
-            "next_event": "sith_master"
-          },
-          {
-            "message": "You and your master fight valiantly, but are defeated.",
-            "dynamic_weights": [
-              {
-                "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
-                "max_value": -5,
-                "additive":0,
-                "multiplier": -1 
-              }
-            ]
+            "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
+            "min_value": 5,
+            "additive":0,
+            "multiplier": 1 
           }
+        ],
+        "next_event": "sith_apprentice"
+      },
+      {
+        "message": "You and your master defeat the jedi, but you get hurt in the process",
+        "weight": 5,
+        "effects": [
+          {"attr": "player.health", "mod": -20}
+        ],
+        "next_event": "sith_apprentice"
+      },
+      {
+        "message": "You defeat the jedi, but your master dies in the process and you advance to master status",
+        "dynamic_weights": [
+          {
+            "determinant": {"type": "attr", "attr": "player.skill"},
+            "min_value": 80,
+            "additive": 15,
+            "multiplier": 1
+          }
+        ],
+        "next_event": "sith_master"
+      },
+      {
+        "message": "You and your master fight valiantly, but are defeated.",
+        "dynamic_weights": [
+          {
+            "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
+            "max_value": -5,
+            "additive":0,
+            "multiplier": -1 
+          }
+        ],
+        "effects":
+        [
+          {"attr": "player.health", "set": 0}
         ]
       }
     ],
@@ -341,7 +340,7 @@
             "multiplier": 1 
           }
         ],
-        "next_event": "sith_apprentice"
+        "next_event": "jedi_padawan"
       },
       {
         "message": "You and your master defeat %game.enemy_name%, but you get hurt in the process",
@@ -349,7 +348,7 @@
         "effects": [
           {"attr": "player.health", "mod": -20}
         ],
-        "next_event": "sith_apprentice"
+        "next_event": "jedi_padawan"
       },
       {
         "message": "You defeat %game.enemy_name%, but your master dies in the process and you advance to knight status",
@@ -372,6 +371,10 @@
             "additive":0,
             "multiplier": -1 
           }
+        ],
+        "effects":
+        [
+          {"attr": "player.health", "set": 0}
         ]
       }
     ],
@@ -523,19 +526,19 @@
         "event_type": "dynamic_event",
         "dynamic_options": [
           {
-            "encounter_name": "Jango Fett"
+            "game.encounter_name": "Jango Fett"
           },
           {
-            "encounter_name": "Zam Wesell"
+            "game.encounter_name": "Zam Wesell"
           },
           {
-            "encounter_name": "Anakin Skywalker"
+            "game.encounter_name": "Anakin Skywalker"
           },
           {
-            "encounter_name": "Obi-Wan Kenobi"
+            "game.encounter_name": "Obi-Wan Kenobi"
           },
           {
-            "encounter_name": "Jango Fett"
+            "game.encounter_name": "Jango Fett"
           }
         ],
         "next_event": "unaffiliated"

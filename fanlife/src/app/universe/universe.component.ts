@@ -59,6 +59,8 @@ export class UniverseComponent implements OnInit {
   openActivities(): void {
     this.isActivitiesOpen = true;
 
+    this.activityService.clearActivities();
+
     let activities = this.gameMgr.getUniverseData().activities
     let k: keyof typeof activities;
     for (k in activities) {
