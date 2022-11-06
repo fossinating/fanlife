@@ -5,3 +5,7 @@
         <a mat-button [routerLink]="'universe/' + universe.id" class="universe-link">{{universe.label}}</a>
     </li>
 </div>
+
+<div *ngIf="isLoading" class="load-spinner">
+    <mat-spinner mode="indeterminate" class="spinner"></mat-spinner>
+</div>
