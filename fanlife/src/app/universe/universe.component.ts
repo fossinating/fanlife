@@ -22,6 +22,7 @@ export class UniverseComponent implements OnInit {
   activityList: Gact[];
   universeId: string;
   playerName: string;
+  isDead: boolean;
   isLoading: boolean;
 
   constructor(private gameMgr: GamemanagerService,
@@ -36,7 +37,8 @@ export class UniverseComponent implements OnInit {
     this.universeId = id ? id : 'UNDEFINED';
     this.isActivitiesOpen = false;
     this.activityList = activityService.getActivities();
-    this.playerName = '';
+    this.playerName = ''
+    this.isDead = false;
     this.isLoading = true;
 
     // grab universe info from db
@@ -80,6 +82,7 @@ export class UniverseComponent implements OnInit {
     let activities = this.gameMgr.getUniverseData().activities
     let k: keyof typeof activities;
     for (k in activities) {
+      let disabled = false;
       const activity = activities[k];
       if (activity.hasOwnProperty("requirements")){
         let r_k: any
@@ -100,7 +103,25 @@ export class UniverseComponent implements OnInit {
           }
         }
       }
-      this.activityService.addActivity(activity.name, activity.event);
+      if (activity.hasOwnProperty("disable_on")) {
+        let d_k: any
+        if (activity["disable_on" as keyof typeof activity] != undefined){
+          console.log(activity["disable_on" as keyof typeof activity])
+          for (let disable_on of (activity["disable_on" as keyof typeof activity] as Array<{[key: string]: any, type: string}>)){
+            console.log(disable_on["value"])
+            if (disable_on.type == "next_event_in") {
+              console.log(this.gameMgr.get_next_event())
+              console.log(disable_on["value"].includes(this.gameMgr.get_next_event()))
+              disabled = disable_on["value"].includes(this.gameMgr.get_next_event())
+              if (disabled){
+                console.log("disabling")
+                break;
+              }
+            }
+          }
+        }
+      }
+      this.activityService.addActivity(activity.name, activity.event, disabled);
     }
 
   }
@@ -109,6 +130,7 @@ export class UniverseComponent implements OnInit {
   }
 
   clickActivity(event: string) {
+    this.isActivitiesOpen = false;
     this.gameMgr.runEvent(event);
   }
 

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { EventManager } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { GameActivitiesService } from './activities/gacts.service';
 import { Glog } from './home/gamelog/glog';
@@ -50,6 +51,12 @@ export class GamemanagerService {
               "value": "jedi_order"
             }
           ],
+          "disable_on": [
+            {
+              "type": "next_event_in",
+              "value": ["train", "jedi_padawan_encounter"]
+            }
+          ],
           "event": "leave_jedi"
         },
         {
@@ -59,6 +66,12 @@ export class GamemanagerService {
               "type": "attr",
               "attr": "game.affiliation",
               "value": "jedi_order"
+            }
+          ],
+          "disable_on": [
+            {
+              "type": "next_event_in",
+              "value": ["train", "jedi_padawan_encounter"]
             }
           ],
           "event": "defect_to_sith"
@@ -72,6 +85,12 @@ export class GamemanagerService {
               "value": "sith"
             }
           ],
+          "disable_on": [
+            {
+              "type": "next_event_in",
+              "value": ["train", "sith_apprentice_jedi_encounter"]
+            }
+          ],
           "event": "leave_sith"
         },
         {
@@ -81,6 +100,12 @@ export class GamemanagerService {
               "type": "attr",
               "attr": "game.affiliation",
               "value": "sith"
+            }
+          ],
+          "disable_on": [
+            {
+              "type": "next_event_in",
+              "value": ["train", "sith_apprentice_jedi_encounter"]
             }
           ],
           "event": "defect_to_jedi"
@@ -94,10 +119,16 @@ export class GamemanagerService {
               "value": "unaffiliated"
             }
           ],
+          "disable_on": [
+            {
+              "type": "next_event_in",
+              "value": ["train"]
+            }
+          ],
           "event": "join_sith"
         },
         {
-          "name": "Defect to Jedi Order",
+          "name": "Join Jedi Order",
           "requirements": [
             {
               "type": "attr",
@@ -105,11 +136,23 @@ export class GamemanagerService {
               "value": "unaffiliated"
             }
           ],
+          "disable_on": [
+            {
+              "type": "next_event_in",
+              "value": ["train"]
+            }
+          ],
           "event": "join_jedi"
         },
         {
           "name": "Train",
-          "event": "train_activity"
+          "event": "train_activity",
+          "disable_on": [
+            {
+              "type": "next_event_in",
+              "value": ["train", "jedi_padawan_encounter", "sith_apprentice_jedi_encounter"]
+            }
+          ]
         },
         {
           "name": "Kill your master",
@@ -125,6 +168,12 @@ export class GamemanagerService {
               "value": "apprentice"
             }
           ],
+          "disable_on": [
+            {
+              "type": "next_event_in",
+              "value": ["train", "sith_apprentice_jedi_encounter"]
+            }
+          ],
           "event": "kill_master"
         }
       ],
@@ -132,31 +181,33 @@ export class GamemanagerService {
         "randomizer": [
           {
             "weight": 20,
-            "message": "You are a Sith apprentice",
+            "message": "You are a sith apprentice",
+            "bold": true,
             "next_event": "sith_apprentice",
             "effects": [
               {
                 "attr": "game.affiliation",
-                "val": "sith"
+                "set": "sith"
               },
               {
-                "attr": "game.role",
-                "val": "apprentice"
+                "attr": "game.rank",
+                "set": "apprentice"
               }
             ]
           },
           {
             "weight": 20,
-            "message": "You are a Jedi padawan",
+            "message": "You are a jedi padawan",
+            "bold": true,
             "next_event": "jedi_padawan",
             "effects": [
               {
                 "attr": "game.affiliation",
-                "val": "Jedi"
+                "set": "jedi_order"
               },
               {
-                "attr": "game.role",
-                "val": "padawan"
+                "attr": "game.rank",
+                "set": "padawan"
               }
             ]
           }
@@ -203,6 +254,7 @@ export class GamemanagerService {
         "train": [
           {
             "weight": 15,
+            "valid_previous": false,
             "message": "You get slightly stronger",
             "effects": [
               {
@@ -259,7 +311,7 @@ export class GamemanagerService {
           {
             "weight": 15,
             "event_type": "dynamic_event",
-            "message": "You and your master come across the Jedi %game.enemy_name% in your travels",
+            "message": "You and your master come across the jedi %game.enemy_name% in your travels",
             "next_event": "sith_apprentice_jedi_encounter",
             "dynamic_options": [
               {
@@ -308,12 +360,13 @@ export class GamemanagerService {
         "sith_apprentice_jedi_encounter": [
           {
             "message": "You and your master defeat the jedi with ease",
+            "valid_previous": false,
             "dynamic_weights": [
               {
                 "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
                 "min_value": 5,
                 "additive":0,
-                "multiplier": 1
+                "multiplier": 1 
               }
             ],
             "next_event": "sith_apprentice"
@@ -327,7 +380,7 @@ export class GamemanagerService {
             "next_event": "sith_apprentice"
           },
           {
-            "message": "You defeat the jedi, but your master dies in the process and you advance to master status",
+            "message": "You defeat the jedi, but your master dies in the process and you rise as the new sith lord",
             "dynamic_weights": [
               {
                 "determinant": {"type": "attr", "attr": "player.skill"},
@@ -336,7 +389,7 @@ export class GamemanagerService {
                 "multiplier": 1
               }
             ],
-            "next_event": "sith_master"
+            "next_event": "sith_lord"
           },
           {
             "message": "You and your master fight valiantly, but are defeated.",
@@ -345,7 +398,7 @@ export class GamemanagerService {
                 "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
                 "max_value": -5,
                 "additive":0,
-                "multiplier": -1
+                "multiplier": -1 
               }
             ],
             "effects":
@@ -362,7 +415,7 @@ export class GamemanagerService {
                 "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
                 "min_value": 5,
                 "additive":0,
-                "multiplier": 1
+                "multiplier": 1 
               }
             ],
             "next_event": "jedi_padawan"
@@ -394,7 +447,7 @@ export class GamemanagerService {
                 "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
                 "max_value": -5,
                 "additive":0,
-                "multiplier": -1
+                "multiplier": -1 
               }
             ],
             "effects":
@@ -406,7 +459,8 @@ export class GamemanagerService {
         "leave_jedi": [
           {
             "weight": 1,
-            "message": "You left the Jedi Order, dissapointing your master",
+            "message": "You left the jedi order, dissapointing your master",
+            "valid_previous": false,
             "effects": [
               {
                 "attr": "game.affiliation",
@@ -423,7 +477,8 @@ export class GamemanagerService {
         "defect_to_sith": [
           {
             "weight": 1,
-            "message": "You defected to the Sith, dissapointing the whole Jedi Order",
+            "message": "You defected to the sith, dissapointing the whole jedi order",
+            "valid_previous": false,
             "effects": [
               {
                 "attr": "game.affiliation",
@@ -440,7 +495,8 @@ export class GamemanagerService {
         "leave_sith": [
           {
             "weight": 1,
-            "message": "You left the Sith Order",
+            "message": "You left the sith order",
+            "valid_previous": false,
             "effects": [
               {
                 "attr": "game.affiliation",
@@ -457,7 +513,8 @@ export class GamemanagerService {
         "defect_to_jedi": [
           {
             "weight": 1,
-            "message": "You defected to the Jedi Order, although they are still slightly suspicious of you",
+            "message": "You defected to the jedi order, although they are still slightly suspicious of you",
+            "valid_previous": false,
             "effects": [
               {
                 "attr": "game.affiliation",
@@ -474,7 +531,8 @@ export class GamemanagerService {
         "join_jedi": [
           {
             "weight": 1,
-            "message": "You chose to join the Jedi Order, and they welcomed you with open arms",
+            "message": "You chose to join the jedi order, and they welcomed you with open arms",
+            "valid_previous": false,
             "effects": [
               {
                 "attr": "game.affiliation",
@@ -491,7 +549,8 @@ export class GamemanagerService {
         "join_sith": [
           {
             "weight": 1,
-            "message": "After many trials, you were taken in as a Sith apprentice",
+            "message": "After many trials, you were taken in as a sith apprentice",
+            "valid_previous": false,
             "effects": [
               {
                 "attr": "game.affiliation",
@@ -515,7 +574,8 @@ export class GamemanagerService {
                 "multiplier": 2
               }
             ],
-            "message": "You snuck into your master's chambers at night and killed them, you are now the lord of the Sith",
+            "valid_previous": false,
+            "message": "You snuck into your master's chambers at night and killed them, you are now the lord of the sith",
             "effects": [
               {
                 "attr": "game.affiliation",
@@ -546,7 +606,7 @@ export class GamemanagerService {
             "next_event": "train"
           },
           {
-            "weight": 5,
+            "weight": 5, 
             "message": "In your travels, you encounter %person_name% but decide to part peacefully",
             "event_type": "dynamic_event",
             "dynamic_options": [
@@ -571,6 +631,7 @@ export class GamemanagerService {
         ],
         "train_activity": [
           {
+            "valid_previous": false,
             "weight": 1,
             "message": "You decide to go train for a bit",
             "next_event": "train"
@@ -578,6 +639,11 @@ export class GamemanagerService {
         ]
       }
     }
+    
+    
+    
+    
+    
 
 
 
@@ -598,6 +664,10 @@ export class GamemanagerService {
     this.game_data = {}
 
     this.nextEvent();
+  }
+
+  get_next_event() {
+    return this.next_event;
   }
 
   getUniverseData() {
@@ -638,6 +708,7 @@ export class GamemanagerService {
     if (attr.startsWith("player.")){
       return this.statService.getStat(attr.substring(7)).value;
     } else if (attr.startsWith("game.")){
+      //console.log(this.game_data)
       return this.game_data[attr.substring(5)];
     } else {
       console.error("Encountered an attribute without a prefix: " + attr);
@@ -661,7 +732,7 @@ export class GamemanagerService {
 
 
   setAttr(attr: string, setValue: any){
-    console.log("setting attribute: " + attr + " to: " + setValue)
+    //console.log("setting attribute: " + attr + " to: " + setValue)
     if (attr.startsWith("player.")){
       this.statService.setStat(attr.substring(7), setValue);
     } else if (attr.startsWith("game.")){
@@ -673,7 +744,9 @@ export class GamemanagerService {
 
 
   runEvent(event: string) {
-    //let heldEvent = this.next_event;
+    console.log("next: ", this.next_event);
+    console.log("previous: ", this.previous_event);
+    this.current_event = this.next_event;
     this.next_event = event;
     this.nextEvent();
   }
@@ -702,8 +775,8 @@ export class GamemanagerService {
         }
 
         if (event == undefined){
-          console.log(event_group)
-          console.log(valid_events)
+          console.warn(event_group)
+          console.warn(valid_events)
         }
 
         if (event.hasOwnProperty("event_type") && event.event_type == "dynamic_event"){
@@ -716,7 +789,6 @@ export class GamemanagerService {
         var replacements: {[name: string]: string} = {}
 
         Object.keys(this.game_data).forEach(key => {
-          console.log(key);
             replacements["%game." + key + "%"] = String(this.game_data[key])
         })
 
@@ -724,10 +796,14 @@ export class GamemanagerService {
             replacements["%player." + key + "%"] = String(this.statService.getStat(key))
         })
 
+        var message = event.message;
+        Object.keys(replacements).forEach(key => {
+          message = message.replace("%" + key + "%", replacements[key]);
+        })
         var message = event.message.replace(/%(\w|.)+%/, function(all: any) {
             return replacements[all] || all;
           });
-        this.logService.addGlog(message, false)
+        this.logService.addGlog(message, event.hasOwnProperty("bold") ? event.bold : false);
         if (event.hasOwnProperty("effects")) {
             event.effects.forEach((effect: {attr: string, mod?: number, set?: number}) => {
                 if (effect.hasOwnProperty("mod")){
@@ -742,6 +818,11 @@ export class GamemanagerService {
             if (this.next_event === "$back") {
                 this.next_event = this.previous_event;
             }
+        }
+
+        // default to true
+        if (event.hasOwnProperty("valid_previous") && !event.valid_previous) {
+          this.current_event = this.previous_event;
         }
 
         if (this.getAttr("player.health") <= 0) {

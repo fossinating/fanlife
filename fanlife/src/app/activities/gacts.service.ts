@@ -16,11 +16,11 @@ export class GameActivitiesService {
         return this.activities;
     }
 
-    addActivity(label: string, event: string) {
-        this.activities.push(new Gact(label, event));
+    addActivity(label: string, event: string, disabled: boolean = false) {
+        this.activities.push(new Gact(label, event, disabled));
     }
 
     clearActivities() {
-        this.activities = [];
+        this.activities.splice(0)
     }
 }
