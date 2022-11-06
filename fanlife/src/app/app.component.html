@@ -27,9 +27,18 @@
         <div class="sidenav-banner-span">
             <img src="assets/banner-blue.png" class="sidenav-banner">
         </div>
-        <a mat-button class="sidenav-button" [routerLink]="'designer'" (click)="sidenav.close()">Universe Designer</a>
-        <a mat-button class="sidenav-button" [routerLink]="''" (click)="sidenav.close()">Quit Universe</a>
-        <a mat-button class="sidenav-button" [routerLink]="'about'" (click)="sidenav.close()">About</a>
+        <a mat-button class="sidenav-button" [routerLink]="'designer'" (click)="sidenav.close()">
+            <mat-icon>architecture</mat-icon>
+            Universe Designer
+        </a>
+        <a mat-button class="sidenav-button" [routerLink]="''" (click)="sidenav.close()">
+            <mat-icon>logout</mat-icon>
+            Quit to Universe Select
+        </a>
+        <a mat-button class="sidenav-button" [routerLink]="'about'" (click)="sidenav.close()">
+            <mat-icon>info</mat-icon>
+            About fanlife
+        </a>
     </mat-sidenav>
     <mat-sidenav-content class="content">
         <router-outlet></router-outlet>
