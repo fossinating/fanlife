@@ -638,9 +638,36 @@ export class GamemanagerService {
             "message": "You decide to go train for a bit",
             "next_event": "train"
           }
+        ],
+        "jedi_knight": [
+          {
+            "weight": 1,
+            "message": "While being a knight is great, you realized you want a new master so you became a padawan again",
+            "next_event": "jedi_padawan",
+            "effects": [
+              {
+                "attr": "game.rank",
+                "set": "padawan"
+              }
+            ]
+          }
+        ],
+        "sith_lord": [
+          {
+            "weight": 1,
+            "message": "A new, more powerful sith lord arose and instead of dying, you chose to become their apprentice",
+            "next_event": "sith_apprentice",
+            "effects": [
+              {
+                "attr": "game.rank",
+                "set": "apprentice"
+              }
+            ]
+          }
         ]
       }
     }
+    
 
     this.isDead = false;
 
