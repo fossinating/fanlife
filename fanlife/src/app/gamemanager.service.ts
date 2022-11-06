@@ -132,7 +132,7 @@ export class GamemanagerService {
         "randomizer": [
           {
             "weight": 20,
-            "message": "You are a sith apprentice",
+            "message": "You are a Sith apprentice",
             "next_event": "sith_apprentice",
             "effects": [
               {
@@ -147,12 +147,12 @@ export class GamemanagerService {
           },
           {
             "weight": 20,
-            "message": "You are a jedi padawan",
+            "message": "You are a Jedi padawan",
             "next_event": "jedi_padawan",
             "effects": [
               {
                 "attr": "game.affiliation",
-                "val": "jedi"
+                "val": "Jedi"
               },
               {
                 "attr": "game.role",
@@ -257,9 +257,9 @@ export class GamemanagerService {
             "next_event": "train"
           },
           {
-            "weight": 15,
+            "weight": 0,
             "event_type": "dynamic_event",
-            "message": "You and your master come across the jedi %game.enemy_name% in your travels",
+            "message": "You and your master come across the Jedi %game.enemy_name% in your travels",
             "next_event": "sith_apprentice_jedi_encounter",
             "dynamic_options": [
               {
@@ -310,7 +310,7 @@ export class GamemanagerService {
             "event_type": "dynamic_event_picker",
             "dynamic_options": [
               {
-                "message": "You and your master defeat the jedi with ease",
+                "message": "You and your master defeat the Jedi with ease",
                 "dynamic_weights": [
                   {
                     "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
@@ -322,7 +322,7 @@ export class GamemanagerService {
                 "next_event": "sith_apprentice"
               },
               {
-                "message": "You and your master defeat the jedi, but you get hurt in the process",
+                "message": "You and your master defeat the Jedi, but you get hurt in the process",
                 "weight": 5,
                 "effects": [
                   {"attr": "player.health", "mod": -20}
@@ -330,7 +330,7 @@ export class GamemanagerService {
                 "next_event": "sith_apprentice"
               },
               {
-                "message": "You defeat the jedi, but your master dies in the process and you advance to master status",
+                "message": "You defeat the Jedi, but your master dies in the process and you advance to master status",
                 "dynamic_weights": [
                   {
                     "determinant": {"type": "attr", "attr": "player.skill"},
@@ -403,7 +403,7 @@ export class GamemanagerService {
         "leave_jedi": [
           {
             "weight": 1,
-            "message": "You left the jedi order, dissapointing your master",
+            "message": "You left the Jedi Order, dissapointing your master",
             "effects": [
               {
                 "attr": "game.affiliation",
@@ -420,7 +420,7 @@ export class GamemanagerService {
         "defect_to_sith": [
           {
             "weight": 1,
-            "message": "You defected to the sith, dissapointing the whole jedi order",
+            "message": "You defected to the Sith, dissapointing the whole Jedi Order",
             "effects": [
               {
                 "attr": "game.affiliation",
@@ -437,7 +437,7 @@ export class GamemanagerService {
         "leave_sith": [
           {
             "weight": 1,
-            "message": "You left the sith order",
+            "message": "You left the Sith Order",
             "effects": [
               {
                 "attr": "game.affiliation",
@@ -454,7 +454,7 @@ export class GamemanagerService {
         "defect_to_jedi": [
           {
             "weight": 1,
-            "message": "You defected to the jedi order, although they are still slightly suspicious of you",
+            "message": "You defected to the Jedi Order, although they are still slightly suspicious of you",
             "effects": [
               {
                 "attr": "game.affiliation",
@@ -471,7 +471,7 @@ export class GamemanagerService {
         "join_jedi": [
           {
             "weight": 1,
-            "message": "You chose to join the jedi order, and they welcomed you with open arms",
+            "message": "You chose to join the Jedi Order, and they welcomed you with open arms",
             "effects": [
               {
                 "attr": "game.affiliation",
@@ -488,7 +488,7 @@ export class GamemanagerService {
         "join_sith": [
           {
             "weight": 1,
-            "message": "After many trials, you were taken in as a sith apprentice",
+            "message": "After many trials, you were taken in as a Sith apprentice",
             "effects": [
               {
                 "attr": "game.affiliation",
@@ -512,7 +512,7 @@ export class GamemanagerService {
                 "multiplier": 2
               }
             ],
-            "message": "You snuck into your master's chambers at night and killed them, you are now the lord of the sith",
+            "message": "You snuck into your master's chambers at night and killed them, you are now the lord of the Sith",
             "effects": [
               {
                 "attr": "game.affiliation",
