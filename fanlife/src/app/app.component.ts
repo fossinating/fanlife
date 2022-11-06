@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +7,4 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 })
 export class AppComponent {
   title = 'fanlife';
-  constructor(private firestore: AngularFirestore) { }
 }

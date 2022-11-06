@@ -14,12 +14,14 @@ export class UniverseComponent implements OnInit {
 
   isActivitiesOpen: boolean;
   activityList: Gact[];
+  universeId: string;
 
   constructor(private gameMgr: GamemanagerService,
               private route: ActivatedRoute,
               private activityService: GameActivitiesService)
   {
-    //console.log(this.route.snapshot.paramMap.get("id"));
+    const id = this.route.snapshot.paramMap.get("id");
+    this.universeId = id ? id : "UNDEFINED";
     this.isActivitiesOpen = false;
     this.activityList = activityService.getActivities();
 
@@ -29,6 +31,7 @@ export class UniverseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // ask the user for their name
   }
 
   nextBtn(): void {
