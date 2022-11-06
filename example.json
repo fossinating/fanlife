@@ -1,13 +1,13 @@
 {
   "name" : "Star Wars",
-  "attr": {
-    "health": {
+  "attrs": {
+    "player.health": {
       "min": 0,
       "max": 100,
       "val": 100,
 	    "visible": true
     },
-    "skill": {
+    "player.skill": {
       "min": 0,
       "max": 100,
       "val": 50,
@@ -16,20 +16,91 @@
   },
   "starting_event": "randomizer",
   "activities": [
-    { 
+    {
       "name": "Leave Jedi Order",
       "requirements": [
         {
-          "type": "game_data",
-          "attr": "affiliation",
+          "type": "attr",
+          "attr": "game.affiliation",
           "value": "jedi_order"
         }
       ],
-      "effects": [
+      "event": "leave_jedi"
+    },
+    {
+      "name": "Defect to Sith",
+      "requirements": [
         {
-          ""
+          "type": "attr",
+          "attr": "game.affiliation",
+          "value": "jedi_order"
         }
-      ]
+      ],
+      "event": "defect_to_sith"
+    },
+    {
+      "name": "Leave Sith Order",
+      "requirements": [
+        {
+          "type": "attr",
+          "attr": "game.affiliation",
+          "value": "sith"
+        }
+      ],
+      "event": "leave_sith"
+    },
+    {
+      "name": "Defect to Jedi Order",
+      "requirements": [
+        {
+          "type": "attr",
+          "attr": "game.affiliation",
+          "value": "sith"
+        }
+      ],
+      "event": "defect_to_jedi"
+    },
+    {
+      "name": "Join Sith Order",
+      "requirements": [
+        {
+          "type": "attr",
+          "attr": "game.affiliation",
+          "value": "unaffiliated"
+        }
+      ],
+      "event": "join_sith"
+    },
+    {
+      "name": "Defect to Jedi Order",
+      "requirements": [
+        {
+          "type": "attr",
+          "attr": "game.affiliation",
+          "value": "unaffiliated"
+        }
+      ],
+      "event": "join_jedi"
+    },
+    {
+      "name": "Train",
+      "event": "train_activity"
+    },
+    {
+      "name": "Kill your master",
+      "requirements": [
+        {
+          "type": "attr",
+          "attr": "game.affiliation",
+          "value": "sith"
+        },
+        {
+          "type": "attr",
+          "attr": "game.rank",
+          "value": "apprentice"
+        }
+      ],
+      "event": "kill_master"
     }
   ],
   "event_groups": {
@@ -37,12 +108,32 @@
       {
         "weight": 20,
         "message": "You are a sith apprentice",
-        "next_event": "sith_apprentice"
+        "next_event": "sith_apprentice",
+        "effects": [
+          {
+            "attr": "game.affiliation",
+            "val": "sith"
+          },
+          {
+            "attr": "game.role",
+            "val": "apprentice"
+          }
+        ]
       },
       {
         "weight": 20,
         "message": "You are a jedi padawan",
-        "next_event": "jedi_padawan"
+        "next_event": "jedi_padawan",
+        "effects": [
+          {
+            "attr": "game.affiliation",
+            "val": "jedi"
+          },
+          {
+            "attr": "game.role",
+            "val": "padawan"
+          }
+        ]
       }
     ],
     "jedi_padawan": [
@@ -54,32 +145,32 @@
       {
         "weight": 15,
         "event_type": "dynamic_event",
-        "message": "You and your master come across %enemy_name% in your travels",
+        "message": "You and your master come across %game.enemy_name% in your travels",
         "next_event": "jedi_padawan_encounter",
         "dynamic_options": [
           {
-            "enemy_name": "Darth Maul",
-            "enemy_skill": 80
+            "game.enemy_name": "Darth Maul",
+            "game.enemy_skill": 80
           },
           {
-            "enemy_name": "Count Dooku",
-            "enemy_skill": 80
+            "game.enemy_name": "Count Dooku",
+            "game.enemy_skill": 80
           },
           {
-            "enemy_name": "General Grievous",
-            "enemy_skill": 60
+            "game.enemy_name": "General Grievous",
+            "game.enemy_skill": 60
           },
           {
-            "enemy_name": "Darth Sidious",
-            "enemy_skill": 100
+            "game.enemy_name": "Darth Sidious",
+            "game.enemy_skill": 100
           },
           {
-            "enemy_name": "Jango Fett",
-            "enemy_skill": 40
+            "game.enemy_name": "Jango Fett",
+            "game.enemy_skill": 40
           },
           {
-            "enemy_name": "Zam Wesell",
-            "enemy_skill": 20
+            "game.enemy_name": "Zam Wesell",
+            "game.enemy_skill": 20
           }
         ]
       }
@@ -90,7 +181,7 @@
         "message": "You get slightly stronger",
         "effects": [
           {
-            "attr": "skill",
+            "attr": "player.skill",
             "mod": 5
           }
         ],
@@ -101,7 +192,7 @@
         "message": "You get much stronger",
         "effects": [
           {
-            "attr": "skill",
+            "attr": "player.skill",
             "mod": 10
           }
         ],
@@ -112,7 +203,7 @@
         "message": "Somehow, you get weaker",
         "effects": [
           {
-            "attr": "skill",
+            "attr": "player.skill",
             "mod": -5
           }
         ],
@@ -123,11 +214,11 @@
         "message": "While training, you get injured",
         "effects": [
           {
-            "attr": "skill",
+            "attr": "player.skill",
             "mod": -20
           },
           {
-            "attr": "health",
+            "attr": "player.health",
             "mod": -10
           }
         ],
@@ -143,54 +234,50 @@
       {
         "weight": 15,
         "event_type": "dynamic_event",
-        "message": "You and your master come across the jedi %enemy_name% in your travels",
+        "message": "You and your master come across the jedi %game.enemy_name% in your travels",
         "next_event": "sith_apprentice_jedi_encounter",
         "dynamic_options": [
           {
-            "enemy_name": "Anakin Skywalker",
-            "enemy_skill": 80
+            "game.enemy_name": "Anakin Skywalker",
+            "game.enemy_skill": 80
           },
           {
-            "enemy_name": "Obi-Wan Kenobi",
-            "enemy_skill": 70
+            "game.enemy_name": "Obi-Wan Kenobi",
+            "game.enemy_skill": 70
           },
           {
-            "enemy_name": "Ahsoka Tano",
-            "enemy_skill": 60
+            "game.enemy_name": "Ahsoka Tano",
+            "game.enemy_skill": 60
           },
           {
-            "enemy_name": "Mace Windu",
-            "enemy_skill": 60
+            "game.enemy_name": "Mace Windu",
+            "game.enemy_skill": 60
           },
           {
-            "enemy_name": "Plo Koon",
-            "enemy_skill": 40
+            "game.enemy_name": "Plo Koon",
+            "game.enemy_skill": 40
           },
           {
-            "enemy_name": "Yoda",
-            "enemy_skill": 100
+            "game.enemy_name": "Yoda",
+            "game.enemy_skill": 100
           },
           {
-            "enemy_name": "Ki-Adi-Mundi",
-            "enemy_skill": 20
+            "game.enemy_name": "Ki-Adi-Mundi",
+            "game.enemy_skill": 20
           },
           {
-            "enemy_name": "Kit Fisto",
-            "enemy_skill": 30
+            "game.enemy_name": "Kit Fisto",
+            "game.enemy_skill": 30
           },
           {
-            "enemy_name": "Agen Kolar",
-            "enemy_skill": 10
+            "game.enemy_name": "Agen Kolar",
+            "game.enemy_skill": 10
           },
           {
-            "enemy_name": "Shaak Ti",
-            "enemy_skill": 30
+            "game.enemy_name": "Shaak Ti",
+            "game.enemy_skill": 30
           }
         ]
-      },
-      {
-        "weight": 5,
-        "message": "You feel compelled by the light and become a padawan"
       }
     ],
     "sith_apprentice_jedi_encounter": [
@@ -201,7 +288,7 @@
             "message": "You and your master defeat the jedi with ease",
             "dynamic_weights": [
               {
-                "determinant": {"type": "attr_diff", "first_attr": "skill", "second_attr": "enemy_skill"},
+                "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
                 "min_value": 5,
                 "additive":0,
                 "multiplier": 1 
@@ -213,7 +300,7 @@
             "message": "You and your master defeat the jedi, but you get hurt in the process",
             "weight": 5,
             "effects": [
-              {"attr": "health", "mod": -20}
+              {"attr": "player.health", "mod": -20}
             ],
             "next_event": "sith_apprentice"
           },
@@ -221,7 +308,7 @@
             "message": "You defeat the jedi, but your master dies in the process and you advance to master status",
             "dynamic_weights": [
               {
-                "determinant": {"type": "attr", "attr": "skill"},
+                "determinant": {"type": "attr", "attr": "player.skill"},
                 "min_value": 80,
                 "additive": 15,
                 "multiplier": 1
@@ -233,7 +320,7 @@
             "message": "You and your master fight valiantly, but are defeated.",
             "dynamic_weights": [
               {
-                "determinant": {"type": "attr_diff", "first_attr": "skill", "second_attr": "enemy_skill"},
+                "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
                 "max_value": -5,
                 "additive":0,
                 "multiplier": -1 
@@ -245,10 +332,10 @@
     ],
     "jedi_padawan_encounter": [
       {
-        "message": "You and your master defeat %enemy_name% with ease",
+        "message": "You and your master defeat %game.enemy_name% with ease",
         "dynamic_weights": [
           {
-            "determinant": {"type": "attr_diff", "first_attr": "skill", "second_attr": "enemy_skill"},
+            "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
             "min_value": 5,
             "additive":0,
             "multiplier": 1 
@@ -257,18 +344,18 @@
         "next_event": "sith_apprentice"
       },
       {
-        "message": "You and your master defeat %enemy_name%, but you get hurt in the process",
+        "message": "You and your master defeat %game.enemy_name%, but you get hurt in the process",
         "weight": 5,
         "effects": [
-          {"attr": "health", "mod": -20}
+          {"attr": "player.health", "mod": -20}
         ],
         "next_event": "sith_apprentice"
       },
       {
-        "message": "You defeat %enemy_name%, but your master dies in the process and you advance to knight status",
+        "message": "You defeat %game.enemy_name%, but your master dies in the process and you advance to knight status",
         "dynamic_weights": [
           {
-            "determinant": {"type": "attr", "attr": "skill"},
+            "determinant": {"type": "attr", "attr": "player.skill"},
             "min_value": 80,
             "additive": 15,
             "multiplier": 1
@@ -280,12 +367,185 @@
         "message": "You and your master fight valiantly, but are defeated.",
         "dynamic_weights": [
           {
-            "determinant": {"type": "attr_diff", "first_attr": "skill", "second_attr": "enemy_skill"},
+            "determinant": {"type": "attr_diff", "first_attr": "player.skill", "second_attr": "game.enemy_skill"},
             "max_value": -5,
             "additive":0,
             "multiplier": -1 
           }
         ]
+      }
+    ],
+    "leave_jedi": [
+      {
+        "weight": 1,
+        "message": "You left the jedi order, dissapointing your master",
+        "effects": [
+          {
+            "attr": "game.affiliation",
+            "set": "unaffiliated"
+          },
+          {
+            "attr": "game.rank",
+            "set": "none"
+          }
+        ],
+        "next_event": "unaffiliated"
+      }
+    ],
+    "defect_to_sith": [
+      {
+        "weight": 1,
+        "message": "You defected to the sith, dissapointing the whole jedi order",
+        "effects": [
+          {
+            "attr": "game.affiliation",
+            "set": "sith"
+          },
+          {
+            "attr": "game.rank",
+            "set": "apprentice"
+          }
+        ],
+        "next_event": "sith_apprentice"
+      }
+    ],
+    "leave_sith": [
+      {
+        "weight": 1,
+        "message": "You left the sith order",
+        "effects": [
+          {
+            "attr": "game.affiliation",
+            "set": "unaffiliated"
+          },
+          {
+            "attr": "game.rank",
+            "set": "none"
+          }
+        ],
+        "next_event": "unaffiliated"
+      }
+    ],
+    "defect_to_jedi": [
+      {
+        "weight": 1,
+        "message": "You defected to the jedi order, although they are still slightly suspicious of you",
+        "effects": [
+          {
+            "attr": "game.affiliation",
+            "set": "jedi_order"
+          },
+          {
+            "attr": "game.rank",
+            "set": "padawan"
+          }
+        ],
+        "next_event": "jedi_padawan"
+      }
+    ],
+    "join_jedi": [
+      {
+        "weight": 1,
+        "message": "You chose to join the jedi order, and they welcomed you with open arms",
+        "effects": [
+          {
+            "attr": "game.affiliation",
+            "set": "jedi_order"
+          },
+          {
+            "attr": "game.rank",
+            "set": "padawan"
+          }
+        ],
+        "next_event": "jedi_padawan"
+      }
+    ],
+    "join_sith": [
+      {
+        "weight": 1,
+        "message": "After many trials, you were taken in as a sith apprentice",
+        "effects": [
+          {
+            "attr": "game.affiliation",
+            "set": "sith"
+          },
+          {
+            "attr": "game.rank",
+            "set": "apprentice"
+          }
+        ],
+        "next_event": "sith_apprentice"
+      }
+    ],
+    "kill_master": [
+      {
+        "dynamic_weights": [
+          {
+            "determinant": {"type": "attr", "attr": "player.skill"},
+            "min_value": 80,
+            "additive": 1,
+            "multiplier": 2
+          }
+        ],
+        "message": "You snuck into your master's chambers at night and killed them, you are now the lord of the sith",
+        "effects": [
+          {
+            "attr": "game.affiliation",
+            "set": "sith"
+          },
+          {
+            "attr": "game.rank",
+            "set": "lord"
+          }
+        ],
+        "next_event": "sith_lord"
+      },
+      {
+        "weight": 5,
+        "message": "You tried to surprise your master and kill them, but you were too weak and were killed",
+        "effects": [
+          {
+            "attr": "player.health",
+            "set": "0"
+          }
+        ]
+      }
+    ],
+    "unaffiliated": [
+      {
+        "weight": 5,
+        "message": "You decide to go train by yourself",
+        "next_event": "train"
+      },
+      {
+        "weight": 5, 
+        "message": "In your travels, you encounter %person_name% but decide to part peacefully",
+        "event_type": "dynamic_event",
+        "dynamic_options": [
+          {
+            "encounter_name": "Jango Fett"
+          },
+          {
+            "encounter_name": "Zam Wesell"
+          },
+          {
+            "encounter_name": "Anakin Skywalker"
+          },
+          {
+            "encounter_name": "Obi-Wan Kenobi"
+          },
+          {
+            "encounter_name": "Jango Fett"
+          }
+        ],
+        "next_event": "unaffiliated"
+      }
+    ],
+    "train_activity": [
+      {
+        "weight": 1,
+        "message": "You decide to go train for a bit",
+        "next_event": "train"
       }
     ]
   }
