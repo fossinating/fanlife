@@ -18,6 +18,8 @@ export class GamemanagerService {
   private previous_event: string;
   private game_data: {[name: string]: any};
 
+  public isDead: boolean;
+
   constructor(private activityService: GameActivitiesService,
               private logService: GameLogsService,
               private statService: GameStatsService,
@@ -639,15 +641,8 @@ export class GamemanagerService {
         ]
       }
     }
-    
-    
-    
-    
-    
 
-
-
-
+    this.isDead = false;
 
     // init attributes
     let attrs = this.universe_data["attrs"];
@@ -826,8 +821,9 @@ export class GamemanagerService {
         }
 
         if (this.getAttr("player.health") <= 0) {
-          this.next_event = "dead"
-          this.logService.addGlog("You have deceased", true)
+          this.next_event = "dead";
+          this.logService.addGlog("You have deceased", true);
+          this.isDead = true;
           const collection = document.getElementsByClassName("game-button");
           for (let i = 0; i < collection.length; i++) {
             (collection[i] as HTMLInputElement).disabled = true;
