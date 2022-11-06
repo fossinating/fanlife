@@ -107,8 +107,14 @@ export class UniverseComponent implements OnInit {
       data: {name: this.playerName}
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.playerName = result;
-      this.nameService.setName(this.playerName);
+      if (result) {
+        // non empty name, set it!
+        this.playerName = result;
+        this.nameService.setName(this.playerName);
+      } else {
+        this.playerName = 'Glup Schitto';
+        this.nameService.setName('Glup Schitto');
+      }
     });
   }
 
