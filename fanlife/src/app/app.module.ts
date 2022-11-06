@@ -14,6 +14,9 @@ import { GamelogComponent } from './home/gamelog/gamelog.component';
 import { GamestatsComponent } from './home/gamestats/gamestats.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UniverseComponent } from './universe/universe.component';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -25,6 +28,8 @@ import { UniverseComponent } from './universe/universe.component';
   ],
   imports: [
     BrowserModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     AppRoutingModule,
     NoopAnimationsModule,
     MatToolbarModule,
