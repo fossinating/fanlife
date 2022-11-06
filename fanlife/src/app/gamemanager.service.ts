@@ -257,7 +257,7 @@ export class GamemanagerService {
             "next_event": "train"
           },
           {
-            "weight": 0,
+            "weight": 15,
             "event_type": "dynamic_event",
             "message": "You and your master come across the Jedi %game.enemy_name% in your travels",
             "next_event": "sith_apprentice_jedi_encounter",
