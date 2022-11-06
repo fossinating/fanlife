@@ -68,9 +68,15 @@ export class UniverseComponent implements OnInit {
   nextBtn(): void {
     this.gameMgr.nextEvent();
     setTimeout(() => {
+      // auto scroll
       const el = this.html.nativeElement.querySelector('app-gamelog').parentElement;
       console.log(el);
       el.scrollTop = el.scrollHeight;
+
+      // check if died
+      if (this.gameMgr.isDead) {
+        this.isDead = true;
+      }
     }, 100)
   }
 
@@ -149,6 +155,10 @@ export class UniverseComponent implements OnInit {
         this.nameService.setName('Glup Schitto');
       }
     });
+  }
+
+  reloadPage() {
+    window.location.reload();
   }
 
 }
