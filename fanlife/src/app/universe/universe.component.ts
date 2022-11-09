@@ -53,14 +53,8 @@ export class UniverseComponent implements OnInit {
         this.gameMgr.init_universe((universeData as UniverseData));
         this.isLoading = false;
         this.gameMgr.nextEvent();
-        /*this.index = universeData;
-        console.log(this.index);
-        // now update universe list
-        this.universeList = [];
-        let k: keyof typeof universeData;
-        for (k in universeData) {
-          this.universeList.push(new Universe(universeData[k], k));
-        }*/
+      } else {
+        console.error('failed to fetch universe data for id: ' + this.universeId);
       }
     });
   }

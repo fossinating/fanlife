@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { GamelogComponent } from './home/gamelog/gamelog.component';
 import { GamestatsComponent } from './home/gamestats/gamestats.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -25,6 +26,7 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from 'src/environments/environment';
 import { DesignerComponent } from './designer/designer.component';
 import { AboutComponent } from './about/about.component';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 
 @NgModule({
   declarations: [
@@ -56,6 +58,8 @@ import { AboutComponent } from './about/about.component';
     FormsModule,
     MatProgressSpinnerModule,
     MatDividerModule,
+    AngularFireAuthModule,
+    MatSnackBarModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

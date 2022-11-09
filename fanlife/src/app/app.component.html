@@ -39,6 +39,19 @@
             <mat-icon>info</mat-icon>
             About fanlife
         </a>
+        <div class="sidenav-auth">
+            <mat-divider></mat-divider>
+            <div *ngIf="auth.user | async as user; else showLogin">
+                <h3>Hello {{ user.email }}!</h3>
+                <button mat-raised-button (click)="logout()">Logout</button>
+            </div>
+            <ng-template #showLogin>
+                <h3>Log in to get access to fanlife's best features!</h3>
+                Email <input mat-input (change)="changeEmail(email.value)" #email><br>
+                Password <input mat-input type="password" (change)="changePassword(pass.value)" #pass><br>
+                <button mat-raised-button (click)="login()">Log in</button>
+            </ng-template>
+        </div>
     </mat-sidenav>
     <mat-sidenav-content class="content">
         <router-outlet></router-outlet>
