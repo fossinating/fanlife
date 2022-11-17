@@ -1,1 +1,19 @@
-<p>Universe designer coming soon!</p>
+<div *ngIf="auth.user | async as user; else showLogin">
+    <h1 class="designer-title">Universe Editor</h1>
+    <h3>Select a Universe to edit or create a new Universe</h3>
+    <mat-tab-group mat-align-tabs="center" mat-stretch-tabs="false">
+        <mat-tab label="Edit Universe">
+            <p>LIST OF UNIVERSES</p>
+        </mat-tab>
+        <mat-tab label="Create New">
+            <mat-form-field class="example-full-width">
+                <mat-label>New Universe Name</mat-label>
+                <input matInput placeholder="My new universe" #universename>
+            </mat-form-field><br>
+            <button mat-stroked-button>Create</button>
+        </mat-tab>
+      </mat-tab-group>
+</div>
+<ng-template #showLogin>
+    <h3>Log in using the sidebar to create and edit your own universes!</h3>
+</ng-template>

@@ -47,8 +47,14 @@
             </div>
             <ng-template #showLogin>
                 <h3>Log in to get access to fanlife's best features!</h3>
-                Email <input mat-input (change)="changeEmail(email.value)" #email><br>
-                Password <input mat-input type="password" (change)="changePassword(pass.value)" #pass><br>
+                <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" (change)="changeEmail(email.value)" #email>
+                </mat-form-field><br>
+                <mat-form-field>
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" (change)="changePassword(pass.value)" #pass>
+                </mat-form-field><br>
                 <button mat-raised-button (click)="login()">Log in</button>
             </ng-template>
         </div>

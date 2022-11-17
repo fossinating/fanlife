@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-designer',
@@ -7,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DesignerComponent implements OnInit {
 
-  constructor() { }
+  auth: AngularFireAuth;
+
+  constructor(private fireauth: AngularFireAuth) 
+  {
+    this.auth = fireauth;
+  }
 
   ngOnInit(): void {
   }
